@@ -43,7 +43,8 @@ public class AdminDao
         Admin adm = new Admin();
         try
         {
-            sql = conn.prepareStatement("SELECT nomeAdmin, sobrenomeAdmin, emailAdmin, senhaAdmin from Admin where emailAdmin=(?)");
+            sql = conn.prepareStatement("SELECT nomeAdmin, sobrenomeAdmin, emailAdmin"
+                    + " senhaAdmin from admin where emailAdmin=(?)");
             sql.setString(1, emailAdmin);
             rs=sql.executeQuery();
             if(rs!=null){

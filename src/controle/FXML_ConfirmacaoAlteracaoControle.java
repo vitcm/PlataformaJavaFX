@@ -1,6 +1,5 @@
 package controle;
 
-
 import dao.AdminDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +14,7 @@ import modelo.Admin;
 import negocio.AdminNegocio;
 
 public class FXML_ConfirmacaoAlteracaoControle {
-    
+
     private Admin adm = new Admin();
     String emailAdm = "";
 
@@ -42,7 +41,7 @@ public class FXML_ConfirmacaoAlteracaoControle {
 
     @FXML
     private TextField txtSenha;
-    
+
     @FXML
     private Text lblEmail;
 
@@ -50,35 +49,41 @@ public class FXML_ConfirmacaoAlteracaoControle {
     void btnAlterarOnAction(ActionEvent event) throws Exception {
         AdminNegocio admNeg = new AdminNegocio();
         String senha = txtSenha.getText();
-        admNeg.validaSenhaAdmin(emailAdm, senha);
-        
-        Stage loginStage = (Stage) btnAlterar.getScene().getWindow();
-        loginStage.close();
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alerta");
-        alert.setHeaderText("Perfil alterado");
-        alert.setContentText("Você alterou o seu perfil.");
-        alert.showAndWait();
+
+        if (!admNeg.validaSenhaAdmin(emailAdm, senha)) {
+            alert.setHeaderText("Erro!");
+            alert.setContentText("Ops, ocorreu um erro! Não conseguimos alterar os seus dados ):");
+            alert.showAndWait();
+        } else {
+            alert.setHeaderText("Perfil alterado");
+            alert.setContentText("Você alterou o seu perfil.");
+            alert.showAndWait();
+        }
+        Stage loginStage = (Stage) btnAlterar.getScene().getWindow();
+        loginStage.close();
     }
 
     @FXML
     void txtSenhaOnAction(ActionEvent event) {
 
     }
-    
+
     private Stage alteracaoDadosStage;
-    
+
     public void setAlteracaoDadosStage(Stage stage) {
         this.alteracaoDadosStage = stage;
     }
-    
+
     //pega os dados do Perfil para inserir nos campos de texto
-    public void getEmail(String email){
+    public void getEmail(String email) {
         lblEmail.setText(email);
     }
-    
-    public String passaEmail(){
-        emailAdm= lblEmail.getText();
+
+    public String passaEmail() {
+        emailAdm = lblEmail.getText();
         return emailAdm;
     }
 

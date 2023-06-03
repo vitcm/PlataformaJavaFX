@@ -18,7 +18,7 @@ public class Conexao
     private String dbName="BDeMVC";
     private static final String USER = "postgres";
     private static final String PASS = "200609";
-    private static final String URL = "jdbc:postgresql://localhost:5432/BDeMVC";
+    private static final String URL = "jdbc:postgresql://localhost:5432/VitoryaCursos-062023";
     
     public Conexao()
     {

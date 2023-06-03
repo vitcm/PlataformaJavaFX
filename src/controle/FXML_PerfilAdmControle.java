@@ -2,6 +2,7 @@ package controle;
 
 import dao.AdminDao;
 import java.io.IOException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,7 +22,7 @@ import javafx.stage.Stage;
 import modelo.Admin;
 
 public class FXML_PerfilAdmControle {
-    
+
     private Admin admin = new Admin();
     private String emailAdm = "";
 
@@ -112,13 +114,33 @@ public class FXML_PerfilAdmControle {
     }
 
     @FXML
-    void btnExcluirPerfilOnAction(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Alerta");
-        alert.setHeaderText("Exclusão de perfil");
-        alert.setContentText("Deseja mesmo excluir perfil?");
-        alert.showAndWait();
-        abreAreaLogin();
+    void btnExcluirPerfilOnAction(ActionEvent event) throws IOException, Exception {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirmação de Exclusão");
+        confirmAlert.setHeaderText("Exclusão de perfil");
+        confirmAlert.setContentText("Deseja mesmo excluir o perfil?");
+        
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            AdminDao admDao = new AdminDao();
+
+            if (!admDao.excluiAdmin(getEmail())) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Erro");
+                errorAlert.setHeaderText("Erro ao excluir perfil");
+                errorAlert.setContentText("Ops, não foi possível excluir seu perfil ):");
+                errorAlert.showAndWait();
+            } else {
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Sucesso");
+                successAlert.setHeaderText("Perfil excluído com sucesso");
+                successAlert.setContentText("Seu perfil foi excluído com sucesso!");
+                successAlert.showAndWait();
+
+                abreAreaLogin();
+            }
+        }
     }
 
     @FXML
@@ -148,7 +170,6 @@ public class FXML_PerfilAdmControle {
 //            e.printStackTrace();
 //        }
 //    }
-
     public void abreJanelaCadastroCurso() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
         Scene scene = new Scene(root);
@@ -163,7 +184,7 @@ public class FXML_PerfilAdmControle {
         FXML_ConfirmacaoAlteracaoControle confirmacaoDadosControle = new FXML_ConfirmacaoAlteracaoControle();
         alteracaoDadosControle.setDadosLogin(getEmail());
         confirmacaoDadosControle.getEmail(getEmail());
-        
+
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -190,7 +211,7 @@ public class FXML_PerfilAdmControle {
         emailAdm = email;
         return emailAdm;
     }
-    
+
     //pega o email para passar para o alteracao dados
     public String getEmail() {
         return lblEmail.getText();

@@ -74,35 +74,35 @@ public class FXML_LoginControle {
     }
 
     @FXML
-    void btnEntrarOnAction(ActionEvent event) throws IOException {
+    void btnEntrarOnAction(ActionEvent event) throws IOException, Exception {
 //        String email = txtEmail.getText();
 //        String senha = txtSenha.getText();
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
-        int cont =0;
+        int cont = 0;
         if (rbtAdmin.isSelected()) {
-            if(!adn.verificaEmailVazio(email)){
+            if (!adn.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
             }
-            if(!adn.verificaSenhaVazio(senha)){
+            if (!adn.verificaSenhaVazio(senha)) {
                 txtSenha.setText("Favor, completar a senha!");
                 cont++;
             }
-            if(cont==0){
-                abreAreaPerfilAdmin();
+            if (cont == 0) {
+                abreAreaPerfilAdmin(email, senha);
             }
         } else if (rbtEstudante.isSelected()) {
-            if(!aln.verificaEmailVazio(email)){
+            if (!aln.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
             }
-            if(!aln.verificaSenhaVazio(senha)){
+            if (!aln.verificaSenhaVazio(senha)) {
                 txtSenha.setText("Favor, completar a senha!");
                 cont++;
             }
-            if(cont==0){
-                abreAreaPerfilAluno();
+            if (cont == 0) {
+                abreAreaPerfilAluno(email, senha);
             }
 
         } else {
@@ -150,7 +150,7 @@ public class FXML_LoginControle {
         }
     }
 
-    public void abreAreaPerfilAluno() throws IOException {
+    public void abreAreaPerfilAluno(String email, String senha) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_PerfilAluno.fxml"));
             Parent root = loader.load();
@@ -168,18 +168,27 @@ public class FXML_LoginControle {
         }
     }
 
-    public void abreAreaPerfilAdmin() throws IOException {
+    public void abreAreaPerfilAdmin(String email, String senha) throws IOException, Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_PerfilAdm.fxml"));
-            Parent root = loader.load();
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Alerta");
 
-            FXML_PerfilAdmControle perfilAdmControle = loader.getController();
-            perfilAdmControle.setDadosLogin(getEmail());
+            if (!adn.validaDadosLogin(email, senha)) {
+                alert.setHeaderText("Erro!");
+                alert.setContentText("Ops. Email ou senha errados! Favor verificar.");
+                alert.showAndWait();
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_PerfilAdm.fxml"));
+                Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Área do Administrador");
-            stage.show();
+                FXML_PerfilAdmControle perfilAdmControle = loader.getController();
+                perfilAdmControle.setDadosLogin(getEmail());
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Área do Administrador");
+                stage.show();
+            }
 
             // Fechar a janela de login após abrir a janela do administrador
             Stage loginStage = (Stage) btnEntrar.getScene().getWindow();
