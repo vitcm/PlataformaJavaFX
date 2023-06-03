@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="TrabalhoFinal.jnlp">
+  <information>
+    <title>TrabalhoFinal</title>
+    <vendor>VITORYA</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="TrabalhoFinal.jar" size="43008" download="eager" />
+    <jar href="lib\postgresql-42.2.16.jar" size="1002883" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="trabalhofinal.TrabalhoFinal"  name="TrabalhoFinal" />
+  <update check="always"/>
+</jnlp>

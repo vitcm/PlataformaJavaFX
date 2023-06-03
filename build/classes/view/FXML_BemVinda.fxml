@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controle.FXML_BemVindaControle">
+   <children>
+      <Pane prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <Rectangle fx:id="fundo" fill="#ede6e6c7" height="402.0" layoutY="201.0" stroke="#ede6e6f5" strokeType="INSIDE" width="800.0" />
+            <Rectangle fx:id="fundo1" fill="#89a2ab" height="180.0" stroke="#89a2abf5" strokeType="INSIDE" width="800.0" />
+            <Rectangle fx:id="fundo11" fill="#0f2130" height="23.0" layoutX="-5.0" layoutY="178.0" stroke="#89a2abf5" strokeType="INSIDE" width="806.0" />
+            <Text fx:id="lblTitulo1" fill="#0f2130" layoutX="196.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VITORYA">
+               <font>
+                  <Font name="Microsoft Sans Serif" size="65.0" />
+               </font>
+            </Text>
+            <Text fx:id="lblSubtitulo" fill="#ede6e6" layoutX="518.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comunidade de aprendizado online">
+               <font>
+                  <Font name="Microsoft Sans Serif" size="15.0" />
+               </font>
+            </Text>
+            <Text fx:id="lblTitulo2" layoutX="484.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CURSOS">
+               <font>
+                  <Font name="Microsoft Sans Serif" size="65.0" />
+               </font>
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.09803921729326248" green="0.3921568691730499" blue="0.4941176474094391" opacity="0.9599999785423279" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006729475100942127">
+                           <color>
+                              <Color red="0.09803921729326248" green="0.3921568691730499" blue="0.4941176474094391" opacity="0.9599999785423279" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.05882352963089943" green="0.12941177189350128" blue="0.1882352977991104" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
+            <Button fx:id="btnVerCursos" layoutX="286.0" layoutY="337.0" mnemonicParsing="false" onAction="#btnVerCursosOnAction" prefHeight="25.0" prefWidth="229.0" text="Ver cursos disponíveis" />
+            <Label fx:id="lblBemVinda" layoutX="316.0" layoutY="251.0" text="Seja bem vinda(o)!" textFill="#0f2131">
+               <font>
+                  <Font name="Microsoft Sans Serif" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblSelecione" layoutX="310.0" layoutY="284.0" text="Selecione a opção desejada:" textFill="#0f2131">
+               <font>
+                  <Font name="Microsoft Sans Serif" size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnLogin" layoutX="285.0" layoutY="389.0" mnemonicParsing="false" onAction="#btnLoginOnAction" prefHeight="25.0" prefWidth="229.0" text="Login" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
