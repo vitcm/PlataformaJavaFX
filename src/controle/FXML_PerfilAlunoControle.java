@@ -1,5 +1,8 @@
 package controle;
+
+import dao.AlunaDao;
 import java.io.IOException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,8 +19,12 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import modelo.Aluna;
 
 public class FXML_PerfilAlunoControle {
+
+    private Aluna aluna = new Aluna();
+    private String emailAluna = "";
 
     @FXML
     private Button btnAlterar;
@@ -67,18 +75,38 @@ public class FXML_PerfilAlunoControle {
     private TableColumn<?, ?> tblCurso;
 
     @FXML
-    void btnAlterarOnAction(ActionEvent event) throws IOException {
+    void btnAlterarOnAction(ActionEvent event) throws IOException, Exception {
         abreJanelaAlteracao();
     }
 
     @FXML
-    void btnExcluirOnAction(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Alerta");
-        alert.setHeaderText("Exclusão de perfil");
-        alert.setContentText("Deseja mesmo excluir perfil?");
-        alert.showAndWait();
-        abreAreaLogin();
+    void btnExcluirOnAction(ActionEvent event) throws IOException, Exception {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirmação de Exclusão");
+        confirmAlert.setHeaderText("Exclusão de perfil");
+        confirmAlert.setContentText("Deseja mesmo excluir o perfil?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            AlunaDao alDao = new AlunaDao();
+
+            if (!alDao.excluiAluna(getEmail())) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Erro");
+                errorAlert.setHeaderText("Erro ao excluir perfil");
+                errorAlert.setContentText("Ops, não foi possível excluir seu perfil ):");
+                errorAlert.showAndWait();
+            } else {
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Sucesso");
+                successAlert.setHeaderText("Perfil excluído com sucesso");
+                successAlert.setContentText("Seu perfil foi excluído com sucesso!");
+                successAlert.showAndWait();
+
+                abreAreaLogin();
+            }
+        }
     }
 
     @FXML
@@ -90,26 +118,8 @@ public class FXML_PerfilAlunoControle {
     void tbTabelaOnSort(ActionEvent event) {
 
     }
-    
-    public void abreCadastroAluno() throws IOException{
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroPessoa.fxml"));
-            Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cadastro");
-            stage.show();
-
-            // Fechar a janela de login após abrir a janela do administrador
-            Stage loginStage = (Stage) btnAlterar.getScene().getWindow();
-            loginStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void abreJanelaCursos() throws IOException{
+    public void abreJanelaCursos() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_ListaCursos.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -117,22 +127,40 @@ public class FXML_PerfilAlunoControle {
         //stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
-    
-    public void abreJanelaAlteracao() throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        //stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+
+    public void abreJanelaAlteracao() throws IOException, Exception {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
+            Parent root = loader.load();
+
+            FXML_AlteracaoDadosControle alteracaoDadosControle = loader.getController();
+            alteracaoDadosControle.setDadosLoginAluna(getEmail());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Alteração");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    
-    public void abreAreaLogin() throws IOException{
+
+    public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setDadosLogin(String email) {
+        lblEmail.setText(email);
+    }
+
+    //pega o email para passar para o alteracao dados
+    public String getEmail() {
+        emailAluna = lblEmail.getText();
+        return emailAluna;
     }
 
 }

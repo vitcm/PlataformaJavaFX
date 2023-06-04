@@ -43,7 +43,7 @@ public class AdminDao
         Admin adm = new Admin();
         try
         {
-            sql = conn.prepareStatement("SELECT nomeAdmin, sobrenomeAdmin, emailAdmin"
+            sql = conn.prepareStatement("SELECT nomeAdmin, sobrenomeAdmin, emailAdmin,"
                     + " senhaAdmin from admin where emailAdmin=(?)");
             sql.setString(1, emailAdmin);
             rs=sql.executeQuery();
@@ -67,7 +67,7 @@ public class AdminDao
         return adm;
     }
     
-    public boolean alteraAdmin(Admin adm) throws Exception{
+    public boolean alteraAdmin(Admin adm, String email) throws Exception{
         boolean retorno = true;
         Connection conn = Conexao.getConnection();
         PreparedStatement sql= null;
@@ -78,7 +78,7 @@ public class AdminDao
             sql.setString(2,adm.getSobrenomeAdmin());
             sql.setString(3,adm.getEmailAdmin());
             sql.setString(4,adm.getSenhaAdmin());
-            sql.setString(5,adm.getNomeAdmin());
+            sql.setString(5,email);
             sql.executeUpdate();
         }
         catch(Exception e)

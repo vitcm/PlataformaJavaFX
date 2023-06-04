@@ -5,17 +5,17 @@ import modelo.Admin;
 
 public class AdminNegocio {
 
-    AdminDao admDao = new AdminDao();
-
     //Valida email e a senha para login
     public boolean validaDadosLogin(String email, String senha) throws Exception {
-        boolean retorno;
-
+        boolean retorno = false;
+        AdminDao admDao = new AdminDao();
         Admin adm = new Admin();
         adm = admDao.pesquisaContato(email);
-        if (adm.getEmailAdmin().equals(email) && adm.getSenhaAdmin().equals(senha)) {
-            retorno = true;
-        } else {
+        try {
+            if (adm.getEmailAdmin().equals(email) && adm.getSenhaAdmin().equals(senha)) {
+                retorno = true;
+            }
+        } catch (Exception e) {
             retorno = false;
         }
         return retorno;
@@ -50,7 +50,31 @@ public class AdminNegocio {
     public boolean verificaSenhaVazio(String senha) {
         boolean retorno = true;
         int cont = 0;
-        if (senha.length() != 6) {
+        if (senha.length() == 0) {
+            cont++;
+        }
+        if (cont != 0) {
+            retorno = false;
+        }
+        return retorno;
+    }
+    
+    public boolean verificaNomeVazio(String nome) {
+        boolean retorno = true;
+        int cont = 0;
+        if (nome.length() == 0) {
+            cont++;
+        }
+        if (cont != 0) {
+            retorno = false;
+        }
+        return retorno;
+    }
+    
+    public boolean verificaSobrenomeVazio(String sobrenome) {
+        boolean retorno = true;
+        int cont = 0;
+        if (sobrenome.length() == 0) {
             cont++;
         }
         if (cont != 0) {

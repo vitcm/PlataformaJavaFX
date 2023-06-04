@@ -150,24 +150,37 @@ public class FXML_LoginControle {
         }
     }
 
-    public void abreAreaPerfilAluno(String email, String senha) throws IOException {
+    public void abreAreaPerfilAluno(String email, String senha) throws IOException, Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_PerfilAluno.fxml"));
-            Parent root = loader.load();
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Alerta");
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Área do Administrador");
-            stage.show();
+            if (!aln.validaDadosLogin(email, senha)) {
+                alert.setHeaderText("Erro!");
+                alert.setContentText("Ops. Email ou senha errados! Favor verificar.");
+                alert.showAndWait();
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_PerfilAluno.fxml"));
+                Parent root = loader.load();
 
-            // Fechar a janela de login após abrir a janela do administrador
-            Stage loginStage = (Stage) btnEntrar.getScene().getWindow();
-            loginStage.close();
+                FXML_PerfilAlunoControle perfilAlnControle = loader.getController();
+                perfilAlnControle.setDadosLogin(getEmail());
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Área do Aluno");
+                stage.show();
+
+                // Fechar a janela de login após abrir a janela do administrador
+                Stage loginStage = (Stage) btnEntrar.getScene().getWindow();
+                loginStage.close();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
+    
     public void abreAreaPerfilAdmin(String email, String senha) throws IOException, Exception {
         try {
             Alert alert = new Alert(AlertType.WARNING);
@@ -188,11 +201,12 @@ public class FXML_LoginControle {
                 stage.setScene(new Scene(root));
                 stage.setTitle("Área do Administrador");
                 stage.show();
+
+                // Fechar a janela de login após abrir a janela do administrador
+                Stage loginStage = (Stage) btnEntrar.getScene().getWindow();
+                loginStage.close();
             }
 
-            // Fechar a janela de login após abrir a janela do administrador
-            Stage loginStage = (Stage) btnEntrar.getScene().getWindow();
-            loginStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

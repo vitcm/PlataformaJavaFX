@@ -1,8 +1,7 @@
 package modelo;
 
 public class Aluna {
-    private String nomeAluna, sobrenomeAluna, emailAluna;
-    private int senhaAluna;
+    private String nomeAluna, sobrenomeAluna, emailAluna, senhaAluna;
 
     public String getNomeAluna() {
         return nomeAluna;
@@ -28,11 +27,11 @@ public class Aluna {
         this.emailAluna = emailAluna;
     }
 
-    public int getSenhaAluna() {
+    public String getSenhaAluna() {
         return senhaAluna;
     }
 
-    public void setSenhaAluna(int senhaAluna) {
+    public void setSenhaAluna(String senhaAluna) {
         this.senhaAluna = senhaAluna;
     }
 }

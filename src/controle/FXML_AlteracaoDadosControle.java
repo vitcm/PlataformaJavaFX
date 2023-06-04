@@ -1,26 +1,34 @@
 package controle;
 
 import dao.AdminDao;
+import dao.AlunaDao;
 import java.io.IOException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Admin;
+import modelo.Aluna;
 
 public class FXML_AlteracaoDadosControle {
 
-    private String emailAdmin = "";
-    private Admin adm = new Admin();
+    private String emailAdm = "";
+    private String nome ="";
+    private String sobrenome = "";
+    private String senha = "";
 
     @FXML
     private Text Subtitulo;
@@ -93,29 +101,89 @@ public class FXML_AlteracaoDadosControle {
     }
 
     public void abreJanelaConfirmação() throws IOException, Exception {
-        FXML_ConfirmacaoAlteracaoControle confirmacaoAlteracaoControle = new FXML_ConfirmacaoAlteracaoControle();
-        confirmacaoAlteracaoControle.getEmail(getDadosAlteracao());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(txtNome.getScene().getWindow());
+        alert.setTitle("Confirmação de Alteração");
+        alert.setHeaderText(null);
+        alert.setContentText("Tem certeza que deseja alterar seus dados?");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_ConfirmacaoAlteracao.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        //stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                try {
+                    realizarAlteracao();
+                } catch (Exception e) {
+                    exibirMensagemErro();
+                }
+            }
+        });
+    }
+
+    public void realizarAlteracao() throws Exception {
+        Admin adm = new Admin();
+        adm.setNomeAdmin(txtNome.getText());
+        adm.setSobrenomeAdmin(txtSobrenome.getText());
+        adm.setEmailAdmin(txtEmail.getText());
+        adm.setSenhaAdmin(txtSenha.getText());
+
+        AdminDao admDao = new AdminDao();
+        boolean sucesso = admDao.alteraAdmin(adm, emailAdm);
+        System.out.println(emailAdm);
+
+        if (sucesso) {
+            exibirMensagemSucesso();
+        } else {
+            exibirMensagemErro();
+        }
+    }
+
+    public void exibirMensagemSucesso() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sucesso");
+        alert.setHeaderText(null);
+        alert.setContentText("Os dados foram alterados com sucesso!");
+        alert.showAndWait();
+    }
+
+    public void exibirMensagemErro() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(null);
+        alert.setContentText("Ocorreu um erro ao alterar os dados. Por favor, tente novamente.");
+        alert.showAndWait();
     }
 
     //pega os dados do Perfil para inserir nos campos de texto
-    public void setDadosLogin(String email) throws Exception {
+    public void setDadosLoginAdmin(String email) throws Exception {
         AdminDao admDao = new AdminDao();
+        Admin adm = new Admin();
         adm = admDao.pesquisaContato(email);
-        txtNome.setText(adm.getNomeAdmin());
-        txtSobrenome.setText(adm.getSobrenomeAdmin());
-        txtEmail.setText(adm.getEmailAdmin());
+        nome = adm.getNomeAdmin();
+        sobrenome = adm.getSobrenomeAdmin();
+        emailAdm = adm.getEmailAdmin();
+        senha = adm.getSenhaAdmin();
+        System.out.println(nome + sobrenome + email + senha);
+        txtNome.setText(nome);
+        txtSobrenome.setText(sobrenome);
+        txtEmail.setText(emailAdm);
+        txtSenha.setText(senha);
     }
     
-    //pega o email lá do Perfil para repassar para a tela de confirmação. A senha digitada deve ser igual a essa. 
-    public String getDadosAlteracao(){
-        emailAdmin = txtEmail.getText();
-        return emailAdmin;
+    public void setDadosLoginAluna(String email) throws Exception {
+        AlunaDao alDao = new AlunaDao();
+        Aluna al = new Aluna();
+        al = alDao.pesquisaContato(email);
+        nome = al.getNomeAluna();
+        sobrenome = al.getSobrenomeAluna();
+        emailAdm = al.getEmailAluna();
+        senha = al.getSenhaAluna();
+        System.out.println(nome + sobrenome + email + senha);
+        txtNome.setText(nome);
+        txtSobrenome.setText(sobrenome);
+        txtEmail.setText(emailAdm);
+        txtSenha.setText(senha);
     }
 }

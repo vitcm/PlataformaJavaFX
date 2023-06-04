@@ -1,4 +1,7 @@
 package controle;
+
+import dao.AdminDao;
+import dao.AlunaDao;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +18,15 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import modelo.Admin;
+import modelo.Aluna;
+import negocio.AdminNegocio;
+import negocio.AlunaNegocio;
 
 public class FXML_CadastroPessoaControle {
+
+    AdminNegocio adn = new AdminNegocio();
+    AlunaNegocio aln = new AlunaNegocio();
 
     @FXML
     private Text Subtitulo;
@@ -65,18 +75,94 @@ public class FXML_CadastroPessoaControle {
 
     @FXML
     private TextField txtSobrenome;
-    
+
     @FXML
     void btnCadastrarOnAction(ActionEvent event) throws IOException {
-        if (rbtProfessor.isSelected() || rbtEstudante.isSelected()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Alerta");
-            alert.setHeaderText("Selecione tipo");
-            alert.setContentText("Sucesso! Bem vinda(o) ao Vitorya Cursos.");
-            alert.showAndWait();
-            abreAreaLogin();
-            Stage loginStage = (Stage) btnCadastrar.getScene().getWindow();
-            loginStage.close();
+        if (rbtProfessor.isSelected()) {
+            String nome = txtNome.getText();
+            String sobrenome = txtSobrenome.getText();
+            String email = txtEmail.getText();
+            String senha = txtSenha.getText();
+            int cont = 0;
+
+            if (!adn.verificaEmailVazio(email)) {
+                txtEmail.setText("Favor, completar o email!");
+                cont++;
+            }
+            if (!adn.verificaSenhaVazio(senha)) {
+                txtSenha.setText("Favor, completar a senha!");
+                cont++;
+            }
+            if (!adn.verificaNomeVazio(nome)) {
+                txtEmail.setText("Favor, completar o nome!");
+                cont++;
+            }
+            if (!adn.verificaSobrenomeVazio(sobrenome)) {
+                txtSenha.setText("Favor, completar o sobrenome!");
+                cont++;
+            }
+            if (cont == 0) {
+                if (adicionaAdmin()) {
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Sucesso");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Cadastro realizado com sucesso!");
+                    successAlert.showAndWait();
+                    abreAreaLogin();
+                    Stage loginStage = (Stage) btnCadastrar.getScene().getWindow();
+                    loginStage.close();
+                } else {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erro");
+                    errorAlert.setHeaderText(null);
+                    errorAlert.setContentText("Falha ao cadastrar.");
+                    errorAlert.showAndWait();
+                }
+            }
+
+        } 
+        if (rbtEstudante.isSelected()) {
+            String nome = txtNome.getText();
+            String sobrenome = txtSobrenome.getText();
+            String email = txtEmail.getText();
+            String senha = txtSenha.getText();
+            int cont = 0;
+
+            if (!aln.verificaEmailVazio(email)) {
+                txtEmail.setText("Favor, completar o email!");
+                cont++;
+            }
+            if (!aln.verificaSenhaVazio(senha)) {
+                txtSenha.setText("Favor, completar a senha!");
+                cont++;
+            }
+            if (!aln.verificaNomeVazio(nome)) {
+                txtEmail.setText("Favor, completar o nome!");
+                cont++;
+            }
+            if (!aln.verificaSobrenomeVazio(sobrenome)) {
+                txtSenha.setText("Favor, completar o sobrenome!");
+                cont++;
+            }
+            if (cont == 0) {
+                if (adicionaAluna()) {
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Sucesso");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Cadastro realizado com sucesso!");
+                    successAlert.showAndWait();
+                    abreAreaLogin();
+                    Stage loginStage = (Stage) btnCadastrar.getScene().getWindow();
+                    loginStage.close();
+                } else {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erro");
+                    errorAlert.setHeaderText(null);
+                    errorAlert.setContentText("Falha ao cadastrar.");
+                    errorAlert.showAndWait();
+                }
+            }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Alerta");
@@ -88,12 +174,12 @@ public class FXML_CadastroPessoaControle {
 
     @FXML
     void rbtEstudanteOnAction(ActionEvent event) {
-        rbtProfessor.setSelected(false);
+        rbtProfessor.setSelected(false); //se o botão estudante estiver selecionado, não pode selecionar TAMBÉM o de professor
     }
 
     @FXML
     void rbtProfessorOnAction(ActionEvent event) {
-        rbtEstudante.setSelected(false);
+        rbtEstudante.setSelected(false);//se o botão professor estiver selecionado, não pode selecionar TAMBÉM o de estudante
     }
 
     @FXML
@@ -115,12 +201,56 @@ public class FXML_CadastroPessoaControle {
     void txtSobrenomeOnAction(ActionEvent event) {
 
     }
-    
-    public void abreAreaLogin() throws IOException{
+
+    public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public boolean adicionaAdmin() {
+        boolean retorno = false;
+        String nome = txtNome.getText();
+        String sobrenome = txtSobrenome.getText();
+        String email = txtEmail.getText();
+        String senha = txtSenha.getText();
+
+        try {
+            Admin adm = new Admin();
+            adm.setNomeAdmin(nome);
+            adm.setSobrenomeAdmin(sobrenome);
+            adm.setEmailAdmin(email);
+            adm.setSenhaAdmin(senha);
+            AdminDao admDao = new AdminDao();
+            retorno = admDao.adicionaAdmin(adm);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return retorno;
+    }
+    
+    public boolean adicionaAluna() {
+        boolean retorno = false;
+        String nome = txtNome.getText();
+        String sobrenome = txtSobrenome.getText();
+        String email = txtEmail.getText();
+        String senha = txtSenha.getText();
+
+        try {
+            Aluna al = new Aluna();
+            al.setNomeAluna(nome);
+            al.setSobrenomeAluna(sobrenome);
+            al.setEmailAluna(email);
+            al.setSenhaAluna(senha);
+            AlunaDao alDao = new AlunaDao();
+            retorno = alDao.adicionaAluna(al);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return retorno;
     }
 }

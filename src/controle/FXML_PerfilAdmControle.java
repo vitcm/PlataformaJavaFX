@@ -119,7 +119,7 @@ public class FXML_PerfilAdmControle {
         confirmAlert.setTitle("Confirmação de Exclusão");
         confirmAlert.setHeaderText("Exclusão de perfil");
         confirmAlert.setContentText("Deseja mesmo excluir o perfil?");
-        
+
         Optional<ButtonType> result = confirmAlert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -153,23 +153,6 @@ public class FXML_PerfilAdmControle {
 
     }
 
-//    public void abreCadastroAdmin() throws IOException {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroPessoa.fxml"));
-//            Parent root = loader.load();
-//
-//            Stage stage = new Stage();
-//            stage.setScene(new Scene(root));
-//            stage.setTitle("Cadastro");
-//            stage.show();
-//
-//            // Fechar a janela de login após abrir a janela do administrador
-//            Stage loginStage = (Stage) btnAlterarPerfil.getScene().getWindow();
-//            loginStage.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
     public void abreJanelaCadastroCurso() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
         Scene scene = new Scene(root);
@@ -180,17 +163,20 @@ public class FXML_PerfilAdmControle {
     }
 
     public void abreJanelaAlteracao() throws IOException, Exception {
-        FXML_AlteracaoDadosControle alteracaoDadosControle = new FXML_AlteracaoDadosControle();
-        FXML_ConfirmacaoAlteracaoControle confirmacaoDadosControle = new FXML_ConfirmacaoAlteracaoControle();
-        alteracaoDadosControle.setDadosLogin(getEmail());
-        confirmacaoDadosControle.getEmail(getEmail());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
+            Parent root = loader.load();
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        //stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+            FXML_AlteracaoDadosControle alteracaoDadosControle =  loader.getController();
+            alteracaoDadosControle.setDadosLoginAdmin(getEmail());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Alteração");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void abreAreaLogin() throws IOException {
@@ -201,19 +187,13 @@ public class FXML_PerfilAdmControle {
         stage.show();
     }
 
-//    public void setDados(String email, String senha){
-//        if (lblEmail != null) {
-//            lblEmail.setText(email);
-//        }
-//    }
-    public String setDadosLogin(String email) {
+    public void setDadosLogin(String email) {
         lblEmail.setText(email);
-        emailAdm = email;
-        return emailAdm;
     }
 
     //pega o email para passar para o alteracao dados
     public String getEmail() {
-        return lblEmail.getText();
+        emailAdm = lblEmail.getText();
+        return emailAdm;
     }
 }
