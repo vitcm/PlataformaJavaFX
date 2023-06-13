@@ -1,6 +1,11 @@
 package controle;
 
+import dao.AreaDao;
+import dao.CursoDao;
 import java.io.IOException;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +21,15 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import modelo.Area;
+import modelo.Curso;
+import negocio.CursoNegocio;
 
 public class FXML_CadastroCursoControle {
+    
+    private String emailAdmin ="";
+
+    CursoNegocio curson = new CursoNegocio();
 
     @FXML
     private Button btnCadastrar;
@@ -26,7 +38,7 @@ public class FXML_CadastroCursoControle {
     private Button btnCriarArea;
 
     @FXML
-    private ComboBox<?> cbxArea;
+    private ComboBox<String> cbxArea;
 
     @FXML
     private Rectangle fundo;
@@ -45,6 +57,9 @@ public class FXML_CadastroCursoControle {
 
     @FXML
     private Label lblPalavraChave;
+
+    @FXML
+    private Label lblErroArea;
 
     @FXML
     private Text lblSubtitulo;
@@ -74,12 +89,49 @@ public class FXML_CadastroCursoControle {
     private TextField txtValor;
 
     @FXML
-    void btnCadastrarOnAction(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Alerta");
-        alert.setHeaderText("Sucesso!");
-        alert.setContentText("Parabéns, você cadastrou um novo curso!");
-        alert.showAndWait();
+    void btnCadastrarOnAction(ActionEvent event) throws Exception {
+        String titulo = txtTituloCurso.getText();
+        String pchave = txtPalavraChave.getText();
+        int choraria = Integer.parseInt(txtCargaHoraria.getText());
+        double valor = Double.parseDouble(txtValor.getText());
+        int cont = 0;
+        if (!curson.verificaNomeVazio(titulo)) {
+            txtTituloCurso.setText("Favor, inserir nome para o curso!");
+            cont++;
+        }
+        if (!curson.verificaPalavraChaveVazia(pchave)) {
+            txtPalavraChave.setText("Favor, inserir palavras chave para o curso!");
+            cont++;
+        }
+        if (!curson.verificaChorariaVazia(choraria)) {
+            txtCargaHoraria.setText("Favor, inserir carga horária válida!");
+            cont++;
+        }
+        if (!curson.verificaValorVazio(valor)) {
+            txtValor.setText("Favor, inserir valor válido!");
+            cont++;
+        }
+        if (cbxArea.getSelectionModel().isEmpty()) {
+            cont++;
+            lblErroArea.setText("Escolha uma área!");
+        }
+        if (cont == 0) {
+            if (adicionaCurso()) {
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Sucesso");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("Cadastro realizado com sucesso!");
+                successAlert.showAndWait();
+                Stage loginStage = (Stage) btnCadastrar.getScene().getWindow();
+                loginStage.close();
+            } else {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Erro");
+                errorAlert.setHeaderText(null);
+                errorAlert.setContentText("Falha ao cadastrar.");
+                errorAlert.showAndWait();
+            }
+        }
     }
 
     @FXML
@@ -111,8 +163,8 @@ public class FXML_CadastroCursoControle {
     void txtValorOnAction(ActionEvent event) {
 
     }
-    
-    public void abreCadastroArea() throws IOException{
+
+    public void abreCadastroArea() throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroArea.fxml"));
             Parent root = loader.load();
@@ -122,7 +174,6 @@ public class FXML_CadastroCursoControle {
             stage.setTitle("Cadastro de área");
             stage.show();
 
-            
             Stage loginStage = (Stage) btnCriarArea.getScene().getWindow();
             loginStage.close();
         } catch (IOException e) {
@@ -130,4 +181,73 @@ public class FXML_CadastroCursoControle {
         }
     }
 
+    public boolean adicionaCurso() throws Exception {
+        boolean retorno = false;
+        String nome = txtTituloCurso.getText();
+        String pchave = txtPalavraChave.getText();
+        int choraria = Integer.parseInt(txtCargaHoraria.getText());
+        double valor = Double.parseDouble(txtValor.getText());
+        int codigoArea = recuperaCodigoArea();
+
+        try {
+            boolean cursoExistente = verificaCursoExistente(nome);
+            if (cursoExistente) {
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Curso já existe");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("Ops! Esse curso já existe, não é possível duplicar.");
+                successAlert.showAndWait();
+                return false;
+            }
+            Curso curso = new Curso();
+            curso.setTitulo(nome);
+            curso.setPalavra_chave_curso(pchave);
+            curso.setC_horaria(choraria);
+            curso.setValor(valor);
+
+            CursoDao cursoDao = new CursoDao();
+            retorno = cursoDao.adicionaCurso(curso, codigoArea, emailAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+
+    public int recuperaCodigoArea() throws Exception {
+        String nomeAreaSelecionada = cbxArea.getValue();
+        AreaDao areaDao = new AreaDao();
+        int codigoArea = areaDao.recuperarCodigoArea(nomeAreaSelecionada);
+        return codigoArea;
+    }
+
+    public boolean verificaCursoExistente(String nome) {
+        boolean areaExistente = false;
+        try {
+            CursoDao cursoDao = new CursoDao();
+            areaExistente = cursoDao.verificaCursoExistente(nome);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return areaExistente;
+    }
+
+    public void preencherComboBoxAreas() throws Exception {
+        AreaDao areadao = new AreaDao();
+        ArrayList<String> nomesAreas = areadao.obterNomesAreas();
+        ObservableList<String> listaNomesAreas = FXCollections.observableArrayList(nomesAreas);
+        cbxArea.setItems(listaNomesAreas);
+    }
+
+    public void getEmail(String emailAdm) {
+        emailAdmin = emailAdm;
+    }
+    
+    public void initialize() {
+        try {
+            preencherComboBoxAreas();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -154,17 +154,25 @@ public class FXML_PerfilAdmControle {
     }
 
     public void abreJanelaCadastroCurso() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        //stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
+            Parent root = loader.load();
+
+            FXML_CadastroCursoControle cadastroCursoControle =  loader.getController();
+            cadastroCursoControle.getEmail(getEmail());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Alteração");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void abreJanelaAlteracao() throws IOException, Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroCursoControle.fxml"));
             Parent root = loader.load();
 
             FXML_AlteracaoDadosControle alteracaoDadosControle =  loader.getController();
@@ -172,7 +180,7 @@ public class FXML_PerfilAdmControle {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Alteração");
+            stage.setTitle("Cadastro Curso");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -41,6 +41,11 @@
             <Button fx:id="btnCadastrar" layoutX="85.0" layoutY="395.0" mnemonicParsing="false" onAction="#btnCadastrarOnAction" prefHeight="25.0" prefWidth="628.0" text="Cadastrar" />
             <Button fx:id="btnCriarArea" layoutX="427.0" layoutY="473.0" mnemonicParsing="false" onAction="#btnCriarAreaOnAction" prefHeight="25.0" prefWidth="289.0" text="Criar área" />
             <Label fx:id="lblCadastrarArea" layoutX="81.0" layoutY="477.0" text="A área do curso não existe? Crie uma nova área: " />
+            <Label fx:id="lblErroArea" layoutX="88.0" layoutY="279.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
