@@ -39,6 +39,11 @@
             <Button fx:id="btnCadastrar" layoutX="132.0" layoutY="489.0" mnemonicParsing="false" onAction="#btnCadastrarOnAction" prefHeight="25.0" prefWidth="536.0" text="Cadastrar" />
             <RadioButton fx:id="rbtEstudante" layoutX="322.0" layoutY="427.0" mnemonicParsing="false" onAction="#rbtEstudanteOnAction" text="Sou estudante" />
             <RadioButton fx:id="rbtProfessor" layoutX="525.0" layoutY="427.0" mnemonicParsing="false" onAction="#rbtProfessorOnAction" text="Sou Professor" />
+            <Label fx:id="lblMensagem" layoutX="380.0" layoutY="337.0" text="ATENÇÃO! O seu email não poderá ser alterado posteriormente." textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

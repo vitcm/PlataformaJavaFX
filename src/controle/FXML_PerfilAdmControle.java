@@ -1,8 +1,12 @@
 package controle;
 
 import dao.AdminDao;
+import dao.CursoDao;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +19,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import modelo.Admin;
+import modelo.Curso;
 
 public class FXML_PerfilAdmControle {
 
@@ -30,6 +36,9 @@ public class FXML_PerfilAdmControle {
 
     @FXML
     private Button btnAlterarCurso;
+
+    @FXML
+    private Button btnAtualizaTabela;
 
     @FXML
     private Button btnAlterarPerfil;
@@ -62,25 +71,22 @@ public class FXML_PerfilAdmControle {
     private Label lblPublicados;
 
     @FXML
-    private Label lblTotal;
-
-    @FXML
     private Line linha;
 
     @FXML
     private TableColumn<?, ?> tblAlunos;
 
     @FXML
-    private TableColumn<?, ?> tblCodigo;
+    private TableColumn<Integer, Curso> tblCodigo;
 
     @FXML
-    private TableColumn<?, ?> tblCurso;
+    private TableColumn<String, Curso> tblCurso;
 
     @FXML
-    private TableView<?> tblTabela;
+    private TableView<Curso> tblTabela;
 
     @FXML
-    private TableColumn<?, ?> tblValor;
+    private TableColumn<Double, Curso> tblValor;
 
     @FXML
     private TextField txtCodigoAlterar;
@@ -102,6 +108,11 @@ public class FXML_PerfilAdmControle {
     @FXML
     void btnCadastrarCursoOnAction(ActionEvent event) throws IOException {
         abreJanelaCadastroCurso();
+    }
+
+    @FXML
+    void btnAtualizaTabelaOnAction(ActionEvent event) throws Exception {
+        carregaTabela();
     }
 
     @FXML
@@ -158,7 +169,7 @@ public class FXML_PerfilAdmControle {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
             Parent root = loader.load();
 
-            FXML_CadastroCursoControle cadastroCursoControle =  loader.getController();
+            FXML_CadastroCursoControle cadastroCursoControle = loader.getController();
             cadastroCursoControle.getEmail(getEmail());
 
             Stage stage = new Stage();
@@ -172,10 +183,10 @@ public class FXML_PerfilAdmControle {
 
     public void abreJanelaAlteracao() throws IOException, Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroCursoControle.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
             Parent root = loader.load();
 
-            FXML_AlteracaoDadosControle alteracaoDadosControle =  loader.getController();
+            FXML_AlteracaoDadosControle alteracaoDadosControle = loader.getController();
             alteracaoDadosControle.setDadosLoginAdmin(getEmail());
 
             Stage stage = new Stage();
@@ -203,5 +214,19 @@ public class FXML_PerfilAdmControle {
     public String getEmail() {
         emailAdm = lblEmail.getText();
         return emailAdm;
+    }
+
+    public void carregaTabela() throws Exception {
+        CursoDao cursoDao = new CursoDao();
+        ArrayList<Curso> cursos = cursoDao.obterCursosDoAdministrador(getEmail());
+
+        ObservableList<Curso> dadosTabela = FXCollections.observableArrayList(cursos);
+
+        System.out.println(getEmail());
+
+        tblCurso.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        tblCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        tblValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        tblTabela.setItems(dadosTabela);
     }
 }

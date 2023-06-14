@@ -42,6 +42,9 @@ public class FXML_CadastroPessoaControle {
 
     @FXML
     private Label lblEmail;
+    
+    @FXML
+    private Label lblMensagem;
 
     @FXML
     private Label lblNome;

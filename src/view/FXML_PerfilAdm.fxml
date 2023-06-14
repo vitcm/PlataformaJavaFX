@@ -62,11 +62,7 @@
             </Label>
             <Button fx:id="btnExcluirCurso" layoutX="536.0" layoutY="479.0" mnemonicParsing="false" onAction="#btnExcluirCursoOnAction" prefHeight="25.0" prefWidth="137.0" text="Excluir curso" />
             <TextField fx:id="txtCodigoExcluir" layoutX="126.0" layoutY="479.0" onAction="#txtCodigoExcluirOnAction" prefHeight="25.0" prefWidth="401.0" promptText="Digite o cógido do curso que deseja excluir" />
-            <Label fx:id="lblTotal" layoutX="436.0" layoutY="384.0" text="Valor total vendido: R$">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+            <Button fx:id="btnAtualizaTabela" layoutX="584.0" layoutY="392.0" mnemonicParsing="false" onAction="#btnAtualizaTabelaOnAction" prefHeight="25.0" prefWidth="89.0" text="Atualiza" />
          </children>
       </Pane>
    </children>

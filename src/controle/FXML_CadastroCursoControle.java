@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
@@ -26,8 +27,8 @@ import modelo.Curso;
 import negocio.CursoNegocio;
 
 public class FXML_CadastroCursoControle {
-    
-    private String emailAdmin ="";
+
+    private String emailAdmin = "";
 
     CursoNegocio curson = new CursoNegocio();
 
@@ -74,13 +75,16 @@ public class FXML_CadastroCursoControle {
     private Label lblValor;
 
     @FXML
+    private Label lblEmail;
+
+    @FXML
     private Line linha;
 
     @FXML
     private TextField txtCargaHoraria;
 
     @FXML
-    private TextField txtPalavraChave;
+    private TextArea txtPalavraChave;
 
     @FXML
     private TextField txtTituloCurso;
@@ -92,8 +96,8 @@ public class FXML_CadastroCursoControle {
     void btnCadastrarOnAction(ActionEvent event) throws Exception {
         String titulo = txtTituloCurso.getText();
         String pchave = txtPalavraChave.getText();
-        int choraria = Integer.parseInt(txtCargaHoraria.getText());
-        double valor = Double.parseDouble(txtValor.getText());
+        String choraria = txtCargaHoraria.getText();
+        String valor = txtValor.getText();
         int cont = 0;
         if (!curson.verificaNomeVazio(titulo)) {
             txtTituloCurso.setText("Favor, inserir nome para o curso!");
@@ -103,11 +107,11 @@ public class FXML_CadastroCursoControle {
             txtPalavraChave.setText("Favor, inserir palavras chave para o curso!");
             cont++;
         }
-        if (!curson.verificaChorariaVazia(choraria)) {
+        if (!curson.verificaChoraria(choraria)) {
             txtCargaHoraria.setText("Favor, inserir carga horária válida!");
             cont++;
         }
-        if (!curson.verificaValorVazio(valor)) {
+        if (!curson.verificaValor(valor)) {
             txtValor.setText("Favor, inserir valor válido!");
             cont++;
         }
@@ -205,8 +209,10 @@ public class FXML_CadastroCursoControle {
             curso.setC_horaria(choraria);
             curso.setValor(valor);
 
+            String emailAdm = lblEmail.getText();
+
             CursoDao cursoDao = new CursoDao();
-            retorno = cursoDao.adicionaCurso(curso, codigoArea, emailAdmin);
+            retorno = cursoDao.adicionaCurso(curso, codigoArea, emailAdm);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -238,11 +244,10 @@ public class FXML_CadastroCursoControle {
         ObservableList<String> listaNomesAreas = FXCollections.observableArrayList(nomesAreas);
         cbxArea.setItems(listaNomesAreas);
     }
-
     public void getEmail(String emailAdm) {
-        emailAdmin = emailAdm;
+        lblEmail.setText(emailAdm);
     }
-    
+
     public void initialize() {
         try {
             preencherComboBoxAreas();

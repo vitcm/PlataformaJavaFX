@@ -34,10 +34,8 @@
             </Text>
             <Label fx:id="lblNome" layoutX="133.0" layoutY="157.0" text="Nome:" />
             <TextField fx:id="txtNome" layoutX="130.0" layoutY="174.0" onAction="#txtNomeOnAction" prefHeight="25.0" prefWidth="536.0" />
-            <Label fx:id="lblSobrenome" layoutX="133.0" layoutY="219.0" text="Sobrenome:" />
-            <TextField fx:id="txtSobrenome" layoutX="129.0" layoutY="239.0" onAction="#txtSobrenomeOnAction" prefHeight="25.0" prefWidth="536.0" />
-            <Label fx:id="lblEmail" layoutX="133.0" layoutY="289.0" text="E-mail:" />
-            <TextField fx:id="txtEmail" layoutX="129.0" layoutY="306.0" onAction="#txtEmailOnAction" prefHeight="25.0" prefWidth="536.0" />
+            <Label fx:id="lblSobrenome" layoutX="133.0" layoutY="255.0" text="Sobrenome:" />
+            <TextField fx:id="txtSobrenome" layoutX="129.0" layoutY="275.0" onAction="#txtSobrenomeOnAction" prefHeight="25.0" prefWidth="536.0" />
             <Label fx:id="lblSenha" layoutX="133.0" layoutY="358.0" text="Senha de acesso:" />
             <TextField fx:id="txtSenha" layoutX="129.0" layoutY="376.0" onAction="#txtSenhaOnAction" prefHeight="25.0" prefWidth="536.0" promptText="Digite 6 números" />
             <Button fx:id="btnAlterar" layoutX="133.0" layoutY="489.0" mnemonicParsing="false" onAction="#btnAlterarOnAction" prefHeight="25.0" prefWidth="536.0" text="Alterar" />

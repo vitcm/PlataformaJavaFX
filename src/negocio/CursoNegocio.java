@@ -38,32 +38,35 @@ public class CursoNegocio {
         return retorno;
     }
 
-    public boolean verificaChorariaVazia(int choraria) {
+    public boolean verificaChoraria(String choraria) {
         boolean retorno = true;
         int cont = 0;
-        if (choraria<= 0) {
+        if (choraria.length() == 0) {
             cont++;
+        } else {
+            try {
+                int chorariaInt = Integer.parseInt(choraria);
+            } catch (NumberFormatException e) {
+                cont++;
+            }
         }
         if (cont != 0) {
             retorno = false;
         }
         return retorno;
     }
-    
-    private boolean validaChoraria(String choraria) {
-    try {
-        Integer.parseInt(choraria);
-        return true;
-    } catch (NumberFormatException e) {
-        return false;
-    }
-}
 
-    public boolean verificaValorVazio(double valor) {
+    public boolean verificaValor(String valor) {
         boolean retorno = true;
         int cont = 0;
-        if (valor<= 0) {
+        if (valor.length() == 0) {
             cont++;
+        } else {
+            try {
+                double valorDouble = Double.parseDouble(valor);
+            } catch (NumberFormatException e) {
+                cont++;
+            }
         }
         if (cont != 0) {
             retorno = false;

@@ -2,7 +2,15 @@ package modelo;
 
 public class Curso {
     private String titulo,palavra_chave_curso;
-    private int c_horaria;
+    private int c_horaria, codigo;
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
     private double valor;
 
     public String getTitulo() {

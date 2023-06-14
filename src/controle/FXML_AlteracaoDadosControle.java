@@ -43,9 +43,6 @@ public class FXML_AlteracaoDadosControle {
     private Rectangle header;
 
     @FXML
-    private Label lblEmail;
-
-    @FXML
     private Label lblNome;
 
     @FXML
@@ -62,9 +59,6 @@ public class FXML_AlteracaoDadosControle {
 
     @FXML
     private Line linha;
-
-    @FXML
-    private TextField txtEmail;
 
     @FXML
     private TextField txtNome;
@@ -126,7 +120,6 @@ public class FXML_AlteracaoDadosControle {
         Admin adm = new Admin();
         adm.setNomeAdmin(txtNome.getText());
         adm.setSobrenomeAdmin(txtSobrenome.getText());
-        adm.setEmailAdmin(txtEmail.getText());
         adm.setSenhaAdmin(txtSenha.getText());
 
         AdminDao admDao = new AdminDao();
@@ -168,7 +161,6 @@ public class FXML_AlteracaoDadosControle {
         System.out.println(nome + sobrenome + email + senha);
         txtNome.setText(nome);
         txtSobrenome.setText(sobrenome);
-        txtEmail.setText(emailAdm);
         txtSenha.setText(senha);
     }
     
@@ -183,7 +175,6 @@ public class FXML_AlteracaoDadosControle {
         System.out.println(nome + sobrenome + email + senha);
         txtNome.setText(nome);
         txtSobrenome.setText(sobrenome);
-        txtEmail.setText(emailAdm);
         txtSenha.setText(senha);
     }
 }

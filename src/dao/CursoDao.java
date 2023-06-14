@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import modelo.Curso;
 
 public class CursoDao {
@@ -15,7 +16,7 @@ public class CursoDao {
         PreparedStatement sql = null;
 
         try {
-            sql = con.prepareStatement("INSERT INTO Curso (nomecurso, pchavecurso, choraria, valor, fk_codigoarea, fk_emailCurso) VALUES ((?),(?),(?),(?),(?),(?))");
+            sql = con.prepareStatement("INSERT INTO Curso (nomecurso, pchavecurso, choraria, valor, fk_codigoarea, fk_emailadmin) VALUES ((?),(?),(?),(?),(?),(?))");
             sql.setString(1, curso.getTitulo());
             sql.setString(2, curso.getPalavra_chave_curso());
             sql.setInt(3, curso.getC_horaria());
@@ -96,8 +97,8 @@ public class CursoDao {
         }
         return curso;
     }
-    
-        public boolean verificaCursoExistente(String titulo) throws SQLException, Exception {
+
+    public boolean verificaCursoExistente(String titulo) throws SQLException, Exception {
         Connection conn = Conexao.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -152,4 +153,41 @@ public class CursoDao {
         }
         return retorno;
     }
+
+    public ArrayList<Curso> obterCursosDoAdministrador(String emailAdmin) throws Exception {
+        ArrayList<Curso> cursos = new ArrayList<>();
+        Connection conn = Conexao.getConnection();
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+
+        try {
+            sql = conn.prepareStatement("SELECT * FROM Curso WHERE fk_emailadmin = ?");
+            sql.setString(1, emailAdmin);
+            rs = sql.executeQuery();
+
+            while (rs.next()) {
+                int codigo = rs.getInt("codigocurso");
+                String tituloCurso = rs.getString("nomecurso");
+                String palavraChave = rs.getString("pchavecurso");
+                int cHoraria = rs.getInt("choraria");
+                double valor = rs.getDouble("valor");
+
+                Curso curso = new Curso();
+                curso.setCodigo(codigo);
+                curso.setTitulo(tituloCurso);
+                curso.setPalavra_chave_curso(palavraChave);
+                curso.setC_horaria(cHoraria);
+                curso.setValor(valor);
+
+                cursos.add(curso);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao obter cursos do administrador: " + e);
+        } finally {
+            Conexao.closeConnection(conn, sql, rs);
+        }
+
+        return cursos;
+    }
+
 }
