@@ -1,8 +1,13 @@
 package controle;
 
 import dao.AlunaDao;
+import dao.CursoDao;
+import dao.InscricaoDao;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +19,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import modelo.Aluna;
+import modelo.Curso;
 
 public class FXML_PerfilAlunoControle {
 
@@ -66,13 +73,15 @@ public class FXML_PerfilAlunoControle {
     private Line linha;
 
     @FXML
-    private TableView<?> tbTabela;
+    private TableView<Curso> tbTabela;
 
     @FXML
-    private TableColumn<?, ?> tblCodigo;
+    private TableColumn<Integer, Curso> tblCodigo;
 
     @FXML
-    private TableColumn<?, ?> tblCurso;
+    private TableColumn<String, Curso> tblCurso;
+    
+    
 
     @FXML
     void btnAlterarOnAction(ActionEvent event) throws IOException, Exception {
@@ -110,7 +119,7 @@ public class FXML_PerfilAlunoControle {
     }
 
     @FXML
-    void btnVisualizarOnAction(ActionEvent event) throws IOException {
+    void btnVisualizarOnAction(ActionEvent event) throws IOException, Exception {
         abreJanelaCursos();
     }
 
@@ -119,8 +128,12 @@ public class FXML_PerfilAlunoControle {
 
     }
 
-    public void abreJanelaCursos() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_ListaCursos.fxml"));
+    public void abreJanelaCursos() throws IOException, Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_ListaCursos.fxml"));
+        Parent root = loader.load();
+
+        FXML_ListaCursosControle listaCursosControle = loader.getController();
+        listaCursosControle.initialize(getEmail());
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -161,6 +174,18 @@ public class FXML_PerfilAlunoControle {
     public String getEmail() {
         emailAluna = lblEmail.getText();
         return emailAluna;
+    }
+
+    public void carregaTabela() throws Exception {
+        InscricaoDao inscricaoDao = new InscricaoDao();
+        ArrayList<Curso> cursos = inscricaoDao.obterCursosDoAluno(emailAluna);
+
+        ObservableList<Curso> dadosTabela = FXCollections.observableArrayList(cursos);
+
+        System.out.println(getEmail());
+
+        tblCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        tblCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));
     }
 
 }

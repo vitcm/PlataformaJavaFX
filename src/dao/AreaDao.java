@@ -91,6 +91,27 @@ public class AreaDao {
         }
         return area;
     }
+    
+    public String pesquisaAreaPorCodigo(int codigo) throws Exception {
+        String mensagem = "";
+        Connection conn = Conexao.getConnection();
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        String nomeArea="";
+        try {
+            sql = conn.prepareStatement("SELECT nomearea from Area where codigoarea=(?)");
+            sql.setInt(1, codigo);
+            rs = sql.executeQuery();
+            if (rs.next()) {
+                nomeArea = rs.getString("nomearea");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        } finally {
+            Conexao.closeConnection(conn, sql, rs);
+        }
+        return nomeArea;
+    }
 
     public ArrayList<String> obterNomesAreas() throws Exception {
         ArrayList<String> nomesAreas = new ArrayList<>();

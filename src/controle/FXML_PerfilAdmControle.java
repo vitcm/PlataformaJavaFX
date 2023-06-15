@@ -224,7 +224,7 @@ public class FXML_PerfilAdmControle {
 
         System.out.println(getEmail());
 
-        tblCurso.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        tblCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         tblCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         tblValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
         tblTabela.setItems(dadosTabela);

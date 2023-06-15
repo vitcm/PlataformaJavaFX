@@ -1,8 +1,18 @@
 package modelo;
 
 public class Curso {
-    private String titulo,palavra_chave_curso;
+
+    private String titulo, palavra_chave_curso;
+    private int area;
     private int c_horaria, codigo;
+
+    public int getArea() {
+        return area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -44,6 +54,5 @@ public class Curso {
     public void setValor(double valor) {
         this.valor = valor;
     }
-    
-    
+
 }

@@ -244,6 +244,7 @@ public class FXML_CadastroCursoControle {
         ObservableList<String> listaNomesAreas = FXCollections.observableArrayList(nomesAreas);
         cbxArea.setItems(listaNomesAreas);
     }
+    
     public void getEmail(String emailAdm) {
         lblEmail.setText(emailAdm);
     }

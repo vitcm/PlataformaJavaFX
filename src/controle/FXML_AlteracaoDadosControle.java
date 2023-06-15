@@ -25,7 +25,7 @@ import modelo.Aluna;
 
 public class FXML_AlteracaoDadosControle {
 
-    private String emailAdm = "";
+    private String email = "";
     private String nome ="";
     private String sobrenome = "";
     private String senha = "";
@@ -123,8 +123,8 @@ public class FXML_AlteracaoDadosControle {
         adm.setSenhaAdmin(txtSenha.getText());
 
         AdminDao admDao = new AdminDao();
-        boolean sucesso = admDao.alteraAdmin(adm, emailAdm);
-        System.out.println(emailAdm);
+        boolean sucesso = admDao.alteraAdmin(adm, email);
+        System.out.println(email);
 
         if (sucesso) {
             exibirMensagemSucesso();
@@ -156,7 +156,7 @@ public class FXML_AlteracaoDadosControle {
         adm = admDao.pesquisaContato(email);
         nome = adm.getNomeAdmin();
         sobrenome = adm.getSobrenomeAdmin();
-        emailAdm = adm.getEmailAdmin();
+        email = adm.getEmailAdmin();
         senha = adm.getSenhaAdmin();
         System.out.println(nome + sobrenome + email + senha);
         txtNome.setText(nome);
@@ -170,7 +170,7 @@ public class FXML_AlteracaoDadosControle {
         al = alDao.pesquisaContato(email);
         nome = al.getNomeAluna();
         sobrenome = al.getSobrenomeAluna();
-        emailAdm = al.getEmailAluna();
+        email = al.getEmailAluna();
         senha = al.getSenhaAluna();
         System.out.println(nome + sobrenome + email + senha);
         txtNome.setText(nome);

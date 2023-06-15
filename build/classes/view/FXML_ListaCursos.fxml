@@ -30,27 +30,28 @@
                </font>
             </Text>
             <Line fx:id="linha" endX="105.20001220703125" endY="-1.52587890625E-5" layoutX="118.0" layoutY="78.0" startX="-117.0" startY="-1.52587890625E-5" stroke="#eae1cd" strokeWidth="2.0" />
-            <TableView fx:id="tabela" layoutX="47.0" layoutY="222.0" onSort="#tabelaOnSort" prefHeight="196.0" prefWidth="705.0">
+            <TableView fx:id="tabela" layoutX="48.0" layoutY="251.0" onSort="#tabelaOnSort" prefHeight="196.0" prefWidth="705.0">
                <columns>
                   <TableColumn fx:id="tabelaCod" prefWidth="72.800048828125" text="Código" />
-                  <TableColumn fx:id="tabelaCurso" prefWidth="270.39996337890625" text="Curso" />
-                  <TableColumn fx:id="tabelaCHoraria" prefWidth="135.20001220703125" text="Carga Horária" />
-                  <TableColumn fx:id="tabelaValor" prefWidth="95.99993896484375" text="Valor" />
+                  <TableColumn fx:id="tabelaCurso" prefWidth="362.3999938964844" text="Curso" />
+                  <TableColumn fx:id="tabelaCHoraria" prefWidth="146.4000244140625" text="Carga Horária" />
+                  <TableColumn fx:id="tabelaValor" prefWidth="123.20001220703125" text="Valor" />
                </columns>
             </TableView>
-            <Button fx:id="btnInscricao" layoutX="47.0" layoutY="473.0" mnemonicParsing="false" onAction="#btnInscricaoOnAction" prefHeight="25.0" prefWidth="705.0" text="Fazer inscrição" />
-            <ComboBox fx:id="cbxCursos" layoutX="48.0" layoutY="165.0" onAction="#cbxCursosOnAction" prefHeight="25.0" prefWidth="302.0" />
-            <Label fx:id="lblSubtitulo" layoutX="49.0" layoutY="150.0" text="Escolha a área do curso:">
+            <Button fx:id="btnInscricao" layoutX="48.0" layoutY="502.0" mnemonicParsing="false" onAction="#btnInscricaoOnAction" prefHeight="25.0" prefWidth="705.0" text="Fazer inscrição" />
+            <ComboBox fx:id="cbxCursos" layoutX="48.0" layoutY="154.0" onAction="#cbxCursosOnAction" prefHeight="25.0" prefWidth="302.0" />
+            <Label fx:id="lblSubtitulo" layoutX="49.0" layoutY="139.0" text="Classificar por:">
                <font>
                   <Font name="Microsoft Sans Serif" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtCurso" layoutX="367.0" layoutY="165.0" onAction="#txtCursoOnAction" prefHeight="25.0" prefWidth="384.0" />
-            <Label fx:id="lblDigiteCurso" layoutX="367.0" layoutY="150.0" text="Digite o nome do curso:">
+            <TextField fx:id="txtCurso" layoutX="367.0" layoutY="154.0" onAction="#txtCursoOnAction" prefHeight="25.0" prefWidth="384.0" />
+            <Label fx:id="lblDigiteCurso" layoutX="367.0" layoutY="139.0" text="Digite o título ou código:">
                <font>
                   <Font name="Microsoft Sans Serif" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="btnAtualiza" layoutX="581.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnAtualizaOnAction" prefHeight="25.0" prefWidth="170.0" text="Filtrar" />
          </children>
       </Pane>
    </children>
