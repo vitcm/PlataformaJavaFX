@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
         <file>
-            <url>src/controle/FXML_AlteracaoDadosControle.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>153</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/controle/FXML_CadastroAreaControle.java</url>
             <bookmark id="2">
                 <name/>
@@ -17,16 +9,16 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>src/controle/FXML_AlteracaoDadosControle.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>179</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/dao/AreaDao.java</file>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/controle/FXML_InscricaoCursoControle.java</file>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/controle/FXML_PerfilAdmControle.java</file>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/controle/FXML_ListaCursosControle.java</file>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/controle/FXML_PerfilAlunoControle.java</file>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/dao/InscricaoDao.java</file>
-            <file>file:/E:/ADS/3%20Periodo/Desenvolvimento%20de%20aplicacoes%20cliente-servidor/Trabalho%20final/TrabalhoFinal/src/dao/CursoDao.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

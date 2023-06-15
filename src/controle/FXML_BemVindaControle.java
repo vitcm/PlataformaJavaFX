@@ -57,7 +57,7 @@ public class FXML_BemVindaControle {
     }
     
     public void abreJanelaCursos() throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_ListaCursos.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_ApresentacaoCursos.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);

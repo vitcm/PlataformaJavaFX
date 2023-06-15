@@ -26,9 +26,16 @@ import modelo.Aluna;
 public class FXML_AlteracaoDadosControle {
 
     private String email = "";
-    private String nome ="";
+    private String nome = "";
     private String sobrenome = "";
     private String senha = "";
+
+    private enum TipoUsuario {
+        ADMIN,
+        ALUNA
+    }
+
+    private TipoUsuario tipoUsuario;
 
     @FXML
     private Text Subtitulo;
@@ -117,20 +124,39 @@ public class FXML_AlteracaoDadosControle {
     }
 
     public void realizarAlteracao() throws Exception {
-        Admin adm = new Admin();
-        adm.setNomeAdmin(txtNome.getText());
-        adm.setSobrenomeAdmin(txtSobrenome.getText());
-        adm.setSenhaAdmin(txtSenha.getText());
+        if (tipoUsuario == TipoUsuario.ADMIN) {
+            Admin adm = new Admin();
+            adm.setNomeAdmin(txtNome.getText());
+            adm.setSobrenomeAdmin(txtSobrenome.getText());
+            adm.setSenhaAdmin(txtSenha.getText());
 
-        AdminDao admDao = new AdminDao();
-        boolean sucesso = admDao.alteraAdmin(adm, email);
-        System.out.println(email);
+            AdminDao admDao = new AdminDao();
+            boolean sucesso = admDao.alteraAdmin(adm, email);
+            System.out.println(email);
 
-        if (sucesso) {
-            exibirMensagemSucesso();
-        } else {
-            exibirMensagemErro();
+            if (sucesso) {
+                exibirMensagemSucesso();
+            } else {
+                exibirMensagemErro();
+            }
         }
+        if (tipoUsuario == TipoUsuario.ALUNA) {
+            Aluna aluna = new Aluna();
+            aluna.setNomeAluna(txtNome.getText());
+            aluna.setSobrenomeAluna(txtSobrenome.getText());
+            aluna.setSenhaAluna(txtSenha.getText());
+
+            AlunaDao alunaDao = new AlunaDao();
+            boolean sucesso = alunaDao.alteraAluna(aluna, email);
+            System.out.println(email);
+
+            if (sucesso) {
+                exibirMensagemSucesso();
+            } else {
+                exibirMensagemErro();
+            }
+        }
+
     }
 
     public void exibirMensagemSucesso() {
@@ -162,8 +188,9 @@ public class FXML_AlteracaoDadosControle {
         txtNome.setText(nome);
         txtSobrenome.setText(sobrenome);
         txtSenha.setText(senha);
+        tipoUsuario = TipoUsuario.ADMIN;
     }
-    
+
     public void setDadosLoginAluna(String email) throws Exception {
         AlunaDao alDao = new AlunaDao();
         Aluna al = new Aluna();
@@ -176,5 +203,6 @@ public class FXML_AlteracaoDadosControle {
         txtNome.setText(nome);
         txtSobrenome.setText(sobrenome);
         txtSenha.setText(senha);
+        tipoUsuario = TipoUsuario.ALUNA;
     }
 }

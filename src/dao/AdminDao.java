@@ -73,12 +73,11 @@ public class AdminDao
         PreparedStatement sql= null;
         try
         {
-            sql= conn.prepareStatement("UPDATE Admin SET nomeAdmin = (?), sobrenomeAdmin = (?), emailAdmin = (?), senhaAdmin = (?) WHERE emailAdmin = (?);");
+            sql= conn.prepareStatement("UPDATE Admin SET nomeAdmin = (?), sobrenomeAdmin = (?), senhaAdmin = (?) WHERE emailAdmin = (?);");
             sql.setString(1,adm.getNomeAdmin());
             sql.setString(2,adm.getSobrenomeAdmin());
-            sql.setString(3,adm.getEmailAdmin());
-            sql.setString(4,adm.getSenhaAdmin());
-            sql.setString(5,email);
+            sql.setString(3,adm.getSenhaAdmin());
+            sql.setString(4,email);
             sql.executeUpdate();
         }
         catch(Exception e)

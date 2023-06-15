@@ -66,7 +66,7 @@ public class AlunaDao {
         return aln;
     }
     
-    public boolean alteraAdmin(Aluna aln, String email) throws Exception{
+    public boolean alteraAluna(Aluna aln, String email) throws Exception{
         boolean retorno = true;
         Connection conn = Conexao.getConnection();
         PreparedStatement sql= null;

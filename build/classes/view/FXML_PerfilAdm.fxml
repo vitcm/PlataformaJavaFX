@@ -41,12 +41,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TableView fx:id="tblTabela" layoutX="127.0" layoutY="262.0" onSort="#tblTabelaOnSort" prefHeight="121.0" prefWidth="545.0">
+            <TableView fx:id="tblTabela" layoutX="127.0" layoutY="262.0" onSort="#tblTabelaOnSort" prefHeight="162.0" prefWidth="545.0">
                <columns>
                   <TableColumn fx:id="tblCodigo" prefWidth="62.39996337890625" text="Código" />
-                  <TableColumn fx:id="tblCurso" prefWidth="282.4000244140625" text="Curso" />
-                  <TableColumn fx:id="tblValor" prefWidth="102.4000244140625" text="Valor" />
-                  <TableColumn fx:id="tblAlunos" prefWidth="96.00006103515625" text="Qtde alunos" />
+                  <TableColumn fx:id="tblCurso" prefWidth="376.0" text="Curso" />
+                  <TableColumn fx:id="tblValor" prefWidth="106.4000244140625" text="Valor" />
                </columns>
             </TableView>
             <Button fx:id="btnCadastrarCurso" layoutX="127.0" layoutY="530.0" mnemonicParsing="false" onAction="#btnCadastrarCursoOnAction" prefHeight="25.0" prefWidth="545.0" text="Cadastrar novo curso" />
@@ -62,7 +61,7 @@
             </Label>
             <Button fx:id="btnExcluirCurso" layoutX="536.0" layoutY="479.0" mnemonicParsing="false" onAction="#btnExcluirCursoOnAction" prefHeight="25.0" prefWidth="137.0" text="Excluir curso" />
             <TextField fx:id="txtCodigoExcluir" layoutX="126.0" layoutY="479.0" onAction="#txtCodigoExcluirOnAction" prefHeight="25.0" prefWidth="401.0" promptText="Digite o cógido do curso que deseja excluir" />
-            <Button fx:id="btnAtualizaTabela" layoutX="584.0" layoutY="392.0" mnemonicParsing="false" onAction="#btnAtualizaTabelaOnAction" prefHeight="25.0" prefWidth="89.0" text="Atualiza" />
+            <Button fx:id="btnAtualizaTabela" layoutX="515.0" layoutY="433.0" mnemonicParsing="false" onAction="#btnAtualizaTabelaOnAction" prefHeight="25.0" prefWidth="157.0" text="Atualiza tabela" />
          </children>
       </Pane>
    </children>

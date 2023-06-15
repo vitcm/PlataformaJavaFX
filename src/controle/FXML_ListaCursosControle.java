@@ -175,7 +175,7 @@ public class FXML_ListaCursosControle {
         tabelaCod.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         tabelaCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         tabelaValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        tabelaCHoraria.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        tabelaCHoraria.setCellValueFactory(new PropertyValueFactory<>("c_horaria"));
 
         tabela.setItems(dadosTabela);
     }

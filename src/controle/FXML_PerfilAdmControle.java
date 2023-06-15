@@ -2,6 +2,7 @@ package controle;
 
 import dao.AdminDao;
 import dao.CursoDao;
+import dao.InscricaoDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -74,9 +75,6 @@ public class FXML_PerfilAdmControle {
     private Line linha;
 
     @FXML
-    private TableColumn<?, ?> tblAlunos;
-
-    @FXML
     private TableColumn<Integer, Curso> tblCodigo;
 
     @FXML
@@ -100,6 +98,16 @@ public class FXML_PerfilAdmControle {
     @FXML
     private Text txtTitulo;
 
+    public void initialize(String email) {
+        try {
+            emailAdm = email;
+            lblEmail.setText(email);
+            carregaTabela();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void btnAlterarPerfilOnAction(ActionEvent event) throws IOException, Exception {
         abreJanelaAlteracao();
@@ -116,12 +124,44 @@ public class FXML_PerfilAdmControle {
     }
 
     @FXML
-    void btnExcluirCursoOnAction(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Alerta");
-        alert.setHeaderText("Exclusão de perfil");
-        alert.setContentText("Deseja mesmo excluir curso?");
-        alert.showAndWait();
+    void btnExcluirCursoOnAction(ActionEvent event) throws Exception {
+        Curso cursoSelecionado = tblTabela.getSelectionModel().getSelectedItem();
+        if (cursoSelecionado != null) {
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Confirmação de Exclusão");
+            confirmAlert.setHeaderText("Exclusão de curso");
+            confirmAlert.setContentText("Deseja mesmo excluir o curso "+cursoSelecionado.getTitulo()+"?");
+
+            Optional<ButtonType> result = confirmAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                InscricaoDao inscricaoDao = new InscricaoDao();
+                CursoDao cursoDao = new CursoDao();
+
+                if (!inscricaoDao.excluiInscricao(cursoSelecionado.getCodigo())) {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erro");
+                    errorAlert.setHeaderText("Erro ao excluir curso");
+                    errorAlert.setContentText("Ops, não foi possível excluir esse curso");
+                    errorAlert.showAndWait();
+                } else {
+                    if (!cursoDao.excluiCurso(cursoSelecionado.getCodigo())) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setTitle("Erro");
+                        errorAlert.setHeaderText("Erro ao excluir curso");
+                        errorAlert.setContentText("Ops, não foi possível excluir esse curso");
+                        errorAlert.showAndWait();
+                    } else {
+                        Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                        successAlert.setTitle("Sucesso");
+                        successAlert.setHeaderText("Curso excluído com sucesso");
+                        successAlert.setContentText("Esse curso foi excluído com sucesso!");
+                        successAlert.showAndWait();
+                    }
+                }
+            }
+        }
+
     }
 
     @FXML
@@ -136,7 +176,7 @@ public class FXML_PerfilAdmControle {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             AdminDao admDao = new AdminDao();
 
-            if (!admDao.excluiAdmin(getEmail())) {
+            if (!admDao.excluiAdmin(emailAdm)) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Erro");
                 errorAlert.setHeaderText("Erro ao excluir perfil");
@@ -170,7 +210,7 @@ public class FXML_PerfilAdmControle {
             Parent root = loader.load();
 
             FXML_CadastroCursoControle cadastroCursoControle = loader.getController();
-            cadastroCursoControle.getEmail(getEmail());
+            cadastroCursoControle.getEmail(emailAdm);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -187,7 +227,7 @@ public class FXML_PerfilAdmControle {
             Parent root = loader.load();
 
             FXML_AlteracaoDadosControle alteracaoDadosControle = loader.getController();
-            alteracaoDadosControle.setDadosLoginAdmin(getEmail());
+            alteracaoDadosControle.setDadosLoginAdmin(emailAdm);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -206,23 +246,22 @@ public class FXML_PerfilAdmControle {
         stage.show();
     }
 
-    public void setDadosLogin(String email) {
-        lblEmail.setText(email);
-    }
-
-    //pega o email para passar para o alteracao dados
-    public String getEmail() {
-        emailAdm = lblEmail.getText();
-        return emailAdm;
-    }
-
+//    public void setDadosLogin(String email) {
+//        lblEmail.setText(email);
+//    }
+//
+//    //pega o email para passar para o alteracao dados
+//    public String getEmail() {
+//        emailAdm = lblEmail.getText();
+//        return emailAdm;
+//    }
     public void carregaTabela() throws Exception {
         CursoDao cursoDao = new CursoDao();
-        ArrayList<Curso> cursos = cursoDao.obterCursosDoAdministrador(getEmail());
+        ArrayList<Curso> cursos = cursoDao.obterCursosDoAdministrador(emailAdm);
 
         ObservableList<Curso> dadosTabela = FXCollections.observableArrayList(cursos);
 
-        System.out.println(getEmail());
+        System.out.println(emailAdm);
 
         tblCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         tblCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));

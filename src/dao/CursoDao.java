@@ -180,7 +180,6 @@ public class CursoDao {
                 curso.setC_horaria(cHoraria);
                 curso.setValor(valor);
                 curso.setArea(codigoArea);
-                
 
                 cursos.add(curso);
             }
@@ -192,7 +191,7 @@ public class CursoDao {
 
         return cursos;
     }
-    
+
     public ArrayList<Curso> obterCursos() throws Exception {
         ArrayList<Curso> cursos = new ArrayList<>();
         Connection conn = Conexao.getConnection();
@@ -226,6 +225,40 @@ public class CursoDao {
         }
 
         return cursos;
+    }
+
+    public Curso obterCursoPorCodigo(int codigoCurso) throws Exception {
+        Connection conn = Conexao.getConnection();
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        Curso curso = null;
+
+        try {
+            sql = conn.prepareStatement("SELECT * FROM Curso WHERE codigocurso = ?");
+            sql.setInt(1, codigoCurso);
+            rs = sql.executeQuery();
+
+            if (rs.next()) {
+                int codigo = rs.getInt("codigocurso");
+                String tituloCurso = rs.getString("nomecurso");
+                String palavraChave = rs.getString("pchavecurso");
+                int cHoraria = rs.getInt("choraria");
+                double valor = rs.getDouble("valor");
+
+                curso = new Curso();
+                curso.setCodigo(codigo);
+                curso.setTitulo(tituloCurso);
+                curso.setPalavra_chave_curso(palavraChave);
+                curso.setC_horaria(cHoraria);
+                curso.setValor(valor);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao obter curso por código: " + e);
+        } finally {
+            Conexao.closeConnection(conn, sql, rs);
+        }
+
+        return curso;
     }
 
 }

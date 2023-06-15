@@ -80,8 +80,16 @@ public class FXML_PerfilAlunoControle {
 
     @FXML
     private TableColumn<String, Curso> tblCurso;
-    
-    
+
+    public void initialize(String email) {
+        try {
+            emailAluna = email;
+            lblEmail.setText(email);
+            carregaTabela();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void btnAlterarOnAction(ActionEvent event) throws IOException, Exception {
@@ -100,7 +108,7 @@ public class FXML_PerfilAlunoControle {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             AlunaDao alDao = new AlunaDao();
 
-            if (!alDao.excluiAluna(getEmail())) {
+            if (!alDao.excluiAluna(emailAluna)) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Erro");
                 errorAlert.setHeaderText("Erro ao excluir perfil");
@@ -133,7 +141,7 @@ public class FXML_PerfilAlunoControle {
         Parent root = loader.load();
 
         FXML_ListaCursosControle listaCursosControle = loader.getController();
-        listaCursosControle.initialize(getEmail());
+        listaCursosControle.initialize(emailAluna);
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -147,7 +155,7 @@ public class FXML_PerfilAlunoControle {
             Parent root = loader.load();
 
             FXML_AlteracaoDadosControle alteracaoDadosControle = loader.getController();
-            alteracaoDadosControle.setDadosLoginAluna(getEmail());
+            alteracaoDadosControle.setDadosLoginAluna(emailAluna);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -166,26 +174,26 @@ public class FXML_PerfilAlunoControle {
         stage.show();
     }
 
-    public void setDadosLogin(String email) {
-        lblEmail.setText(email);
-    }
-
-    //pega o email para passar para o alteracao dados
-    public String getEmail() {
-        emailAluna = lblEmail.getText();
-        return emailAluna;
-    }
-
     public void carregaTabela() throws Exception {
         InscricaoDao inscricaoDao = new InscricaoDao();
-        ArrayList<Curso> cursos = inscricaoDao.obterCursosDoAluno(emailAluna);
+        CursoDao cursoDao = new CursoDao();
+
+        ArrayList<Integer> codigosCursos = inscricaoDao.obterCodigosCursosDoAluno(emailAluna);
+        ArrayList<Curso> cursos = new ArrayList<>();
+
+        for (int codigoCurso : codigosCursos) {
+            Curso curso = cursoDao.obterCursoPorCodigo(codigoCurso);
+            if (curso != null) {
+                cursos.add(curso);
+            }
+        }
 
         ObservableList<Curso> dadosTabela = FXCollections.observableArrayList(cursos);
 
-        System.out.println(getEmail());
-
         tblCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         tblCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+
+        tbTabela.setItems(dadosTabela);
     }
 
 }

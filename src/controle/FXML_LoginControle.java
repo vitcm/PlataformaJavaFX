@@ -164,7 +164,7 @@ public class FXML_LoginControle {
                 Parent root = loader.load();
 
                 FXML_PerfilAlunoControle perfilAlnControle = loader.getController();
-                perfilAlnControle.setDadosLogin(getEmail());
+                perfilAlnControle.initialize(getEmail());
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
@@ -195,7 +195,7 @@ public class FXML_LoginControle {
                 Parent root = loader.load();
 
                 FXML_PerfilAdmControle perfilAdmControle = loader.getController();
-                perfilAdmControle.setDadosLogin(getEmail());
+                perfilAdmControle.initialize(getEmail());
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));

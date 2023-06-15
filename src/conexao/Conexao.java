@@ -15,7 +15,7 @@ public class Conexao
     //private static final String login="vitorya";
     //private String senha="vitorya";
     private String host="localhost:5432";
-    private String dbName="BDeMVC";
+    private String dbName="VitoryaCursos-062023";
     private static final String USER = "postgres";
     private static final String PASS = "200609";
     private static final String URL = "jdbc:postgresql://localhost:5432/VitoryaCursos-062023";
