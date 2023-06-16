@@ -25,6 +25,8 @@ public class FXML_LoginControle {
     private ToggleGroup toggleGroup; //criar um toggleGroup para ajustar o radioButton - selecionar só um por vez.
     AdminNegocio adn = new AdminNegocio();
     AlunaNegocio aln = new AlunaNegocio();
+    
+    String tipoUsuario="";
 
     @FXML
     private Button btnCadastro;
@@ -81,6 +83,7 @@ public class FXML_LoginControle {
         String senha = txtSenha.getText();
         int cont = 0;
         if (rbtAdmin.isSelected()) {
+            tipoUsuario="admin";
             if (!adn.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
@@ -90,9 +93,10 @@ public class FXML_LoginControle {
                 cont++;
             }
             if (cont == 0) {
-                abreAreaPerfilAdmin(email, senha);
+                abreAreaPerfilAdmin(email, senha, tipoUsuario);
             }
         } else if (rbtEstudante.isSelected()) {
+            tipoUsuario="aluna";
             if (!aln.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
@@ -102,7 +106,7 @@ public class FXML_LoginControle {
                 cont++;
             }
             if (cont == 0) {
-                abreAreaPerfilAluno(email, senha);
+                abreAreaPerfilAluno(email, senha, tipoUsuario);
             }
 
         } else {
@@ -150,7 +154,7 @@ public class FXML_LoginControle {
         }
     }
 
-    public void abreAreaPerfilAluno(String email, String senha) throws IOException, Exception {
+    public void abreAreaPerfilAluno(String email, String senha, String tipoUsuario) throws IOException, Exception {
         try {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Alerta");
@@ -164,7 +168,7 @@ public class FXML_LoginControle {
                 Parent root = loader.load();
 
                 FXML_PerfilAlunoControle perfilAlnControle = loader.getController();
-                perfilAlnControle.initialize(getEmail());
+                perfilAlnControle.initialize(getEmail(), tipoUsuario);
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
@@ -181,7 +185,7 @@ public class FXML_LoginControle {
         }
     }
     
-    public void abreAreaPerfilAdmin(String email, String senha) throws IOException, Exception {
+    public void abreAreaPerfilAdmin(String email, String senha, String tipoUsuario) throws IOException, Exception {
         try {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Alerta");
@@ -195,7 +199,7 @@ public class FXML_LoginControle {
                 Parent root = loader.load();
 
                 FXML_PerfilAdmControle perfilAdmControle = loader.getController();
-                perfilAdmControle.initialize(getEmail());
+                perfilAdmControle.initialize(getEmail(), tipoUsuario);
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));

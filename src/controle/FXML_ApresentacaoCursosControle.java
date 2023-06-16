@@ -33,6 +33,9 @@ public class FXML_ApresentacaoCursosControle {
     private Button btnInscricao;
 
     @FXML
+    private Button btnLimpa;
+
+    @FXML
     private Rectangle fundo;
 
     @FXML
@@ -77,12 +80,18 @@ public class FXML_ApresentacaoCursosControle {
     }
 
     @FXML
+    void btnLimpaOnAction(ActionEvent event) {
+        txtCurso.clear();
+        atualizarTabela(cursos);
+    }
+
+    @FXML
     void btnAtualizaOnAction(ActionEvent event) {
-        String tituloCurso = txtCurso.getText().trim();
+        String tituloCurso = txtCurso.getText().trim().toLowerCase(); // Converter para letras minúsculas
 
         ObservableList<Curso> cursosFiltrados = FXCollections.observableArrayList();
         for (Curso curso : cursos) {
-            if (curso.getTitulo().contains(tituloCurso)) {
+            if (curso.getTitulo().toLowerCase().contains(tituloCurso)) {
                 cursosFiltrados.add(curso);
             }
         }
@@ -127,6 +136,14 @@ public class FXML_ApresentacaoCursosControle {
 
         Stage loginStage = (Stage) btnInscricao.getScene().getWindow();
         loginStage.close();
+    }
+
+    private void atualizarTabela(ArrayList<Curso> cursosFiltrados) {
+        // Limpa a tabela atual
+        tabela.getItems().clear();
+
+        // Adiciona os cursos filtrados à tabela
+        tabela.getItems().addAll(cursosFiltrados);
     }
 
 }

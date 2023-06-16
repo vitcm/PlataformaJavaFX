@@ -30,7 +30,7 @@ import modelo.Aluna;
 import modelo.Curso;
 
 public class FXML_ListaCursosControle {
-    
+
     private String emailAl = "";
 
     private ArrayList<Curso> cursos; // Lista com todos os cursos
@@ -40,6 +40,9 @@ public class FXML_ListaCursosControle {
 
     @FXML
     private Button btnInscricao;
+
+    @FXML
+    private Button btnLimpa;
 
     @FXML
     private ComboBox<String> cbxCursos;
@@ -88,11 +91,28 @@ public class FXML_ListaCursosControle {
         txtCursoOnAction(null);
     }
 
+    @FXML
+    void btnLimpaOnAction(ActionEvent event) {
+        cbxCursos.getSelectionModel().clearSelection();
+        txtCurso.clear();
+        atualizarTabela(cursos); // Restaurar a lista original de cursos
+    }
+
     public void initialize(String email) {
         try {
             emailAl = email;
             carregaTabela();
             preencherComboBoxAreas();
+
+            // Adicionar listener na ComboBox
+            cbxCursos.valueProperty().addListener((observable, oldValue, newValue) -> {
+                atualizarBtnAtualiza();
+            });
+
+            // Adicionar listener no TextField
+            txtCurso.textProperty().addListener((observable, oldValue, newValue) -> {
+                atualizarBtnAtualiza();
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,18 +131,6 @@ public class FXML_ListaCursosControle {
 
     }
 
-//    @FXML
-//    void tabelaOnMouseClicked(MouseEvent event) {
-////        if (event.getClickCount() == 1) { // Verifica se foi um clique simples
-////            Curso cursoSelecionado = tabela.getSelectionModel().getSelectedItem();
-////            if (cursoSelecionado != null) {
-////                btnInscricao.setDisable(false); // Habilita o botão de inscrição
-////            } else {
-////                btnInscricao.setDisable(true); // Desabilita o botão de inscrição se nenhum curso estiver selecionado
-////            }
-////        }
-//    }
-
     @FXML
     void tabelaOnSort(ActionEvent event) {
 
@@ -131,7 +139,7 @@ public class FXML_ListaCursosControle {
     @FXML
     void txtCursoOnAction(ActionEvent event) {
         String criterioSelecionado = cbxCursos.getValue();
-        String pesquisa = txtCurso.getText().trim();
+        String pesquisa = txtCurso.getText().trim().toLowerCase(); // Converter para letras minúsculas
 
         if (criterioSelecionado != null && !pesquisa.isEmpty()) {
             ArrayList<Curso> cursosFiltrados = new ArrayList<>();
@@ -141,7 +149,7 @@ public class FXML_ListaCursosControle {
 
                 if (criterioSelecionado.equals("Código") && String.valueOf(curso.getCodigo()).equals(pesquisa)) {
                     cursoCorrespondeAoCriterio = true;
-                } else if (criterioSelecionado.equals("Título") && curso.getTitulo().contains(pesquisa)) {
+                } else if (criterioSelecionado.equals("Título") && curso.getTitulo().toLowerCase().contains(pesquisa)) {
                     cursoCorrespondeAoCriterio = true;
                 }
                 if (cursoCorrespondeAoCriterio) {
@@ -194,5 +202,16 @@ public class FXML_ListaCursosControle {
                 "Título"
         );
         cbxCursos.setItems(criterios);
+    }
+
+    private void atualizarBtnAtualiza() {
+        String criterioSelecionado = cbxCursos.getValue();
+        String pesquisa = txtCurso.getText().trim();
+
+        // Verificar se a ComboBox e o TextField estão preenchidos
+        boolean isPreenchido = criterioSelecionado != null && !pesquisa.isEmpty();
+
+        // Habilitar ou desabilitar o botão com base no estado dos componentes
+        btnAtualiza.setDisable(!isPreenchido);
     }
 }

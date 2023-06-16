@@ -52,6 +52,7 @@
                </font>
             </Label>
             <Button fx:id="btnAtualiza" layoutX="581.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnAtualizaOnAction" prefHeight="25.0" prefWidth="170.0" text="Filtrar" />
+            <Button fx:id="btnLimpa" layoutX="367.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnLimpaOnAction" prefHeight="25.0" prefWidth="170.0" text="Limpar filtros" />
          </children>
       </Pane>
    </children>

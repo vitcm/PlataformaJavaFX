@@ -33,8 +33,13 @@ public class FXML_PerfilAlunoControle {
     private Aluna aluna = new Aluna();
     private String emailAluna = "";
 
+    String usuario = "";
+
     @FXML
     private Button btnAlterar;
+
+    @FXML
+    private Button btnAtualizaTabela;
 
     @FXML
     private Button btnExcluir;
@@ -64,12 +69,6 @@ public class FXML_PerfilAlunoControle {
     private Text lblTitulo;
 
     @FXML
-    private Label lblTotalHoras;
-
-    @FXML
-    private Label lblTotalValor;
-
-    @FXML
     private Line linha;
 
     @FXML
@@ -81,10 +80,11 @@ public class FXML_PerfilAlunoControle {
     @FXML
     private TableColumn<String, Curso> tblCurso;
 
-    public void initialize(String email) {
+    public void initialize(String email, String tipoUsuario) {
         try {
             emailAluna = email;
             lblEmail.setText(email);
+            usuario = tipoUsuario;
             carregaTabela();
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,6 +94,11 @@ public class FXML_PerfilAlunoControle {
     @FXML
     void btnAlterarOnAction(ActionEvent event) throws IOException, Exception {
         abreJanelaAlteracao();
+    }
+
+    @FXML
+    void btnAtualizaTabelaOnAction(ActionEvent event) throws Exception {
+        carregaTabela();
     }
 
     @FXML
@@ -107,21 +112,32 @@ public class FXML_PerfilAlunoControle {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             AlunaDao alDao = new AlunaDao();
+            InscricaoDao inscDao = new InscricaoDao();
 
-            if (!alDao.excluiAluna(emailAluna)) {
+            if (!inscDao.excluiInscricaoAluna(emailAluna)) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Erro");
                 errorAlert.setHeaderText("Erro ao excluir perfil");
                 errorAlert.setContentText("Ops, não foi possível excluir seu perfil ):");
                 errorAlert.showAndWait();
             } else {
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setTitle("Sucesso");
-                successAlert.setHeaderText("Perfil excluído com sucesso");
-                successAlert.setContentText("Seu perfil foi excluído com sucesso!");
-                successAlert.showAndWait();
+                if (!alDao.excluiAluna(emailAluna)) {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erro");
+                    errorAlert.setHeaderText("Erro ao excluir perfil");
+                    errorAlert.setContentText("Ops, não foi possível excluir seu perfil ):");
+                    errorAlert.showAndWait();
+                } else {
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Sucesso");
+                    successAlert.setHeaderText("Perfil excluído com sucesso");
+                    successAlert.setContentText("Seu perfil foi excluído com sucesso!");
+                    successAlert.showAndWait();
 
-                abreAreaLogin();
+                    Stage loginStage = (Stage) btnExcluir.getScene().getWindow();
+                    loginStage.close();
+                    abreAreaLogin();
+                }
             }
         }
     }
@@ -155,7 +171,7 @@ public class FXML_PerfilAlunoControle {
             Parent root = loader.load();
 
             FXML_AlteracaoDadosControle alteracaoDadosControle = loader.getController();
-            alteracaoDadosControle.setDadosLoginAluna(emailAluna);
+            alteracaoDadosControle.initialize(emailAluna, usuario);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

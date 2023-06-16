@@ -66,4 +66,18 @@ public class InscricaoDao {
         }
         return retorno;
     }
+    
+    public boolean excluiInscricaoAluna(String emailAluna) throws Exception {
+        boolean retorno = true;
+        Connection conn = Conexao.getConnection();
+        PreparedStatement sql = null;
+        try {
+            sql = conn.prepareStatement("DELETE FROM Inscricao where fk_emailaluno = (?)");
+            sql.setString(1, emailAluna);
+            sql.executeUpdate();
+        } catch (Exception e) {
+            retorno = false;
+        }
+        return retorno;
+    }
 }

@@ -83,6 +83,7 @@ public class AdminDao
         catch(Exception e)
         {
             retorno=false;
+            e.printStackTrace();
         }
         return retorno;
     }

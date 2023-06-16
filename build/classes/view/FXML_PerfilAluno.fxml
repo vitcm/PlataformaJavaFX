@@ -33,7 +33,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnVisualizar" layoutX="415.0" layoutY="446.0" mnemonicParsing="false" onAction="#btnVisualizarOnAction" prefHeight="25.0" prefWidth="241.0" text="Visualizar novos cursos" />
+            <Button fx:id="btnVisualizar" layoutX="415.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnVisualizarOnAction" prefHeight="25.0" prefWidth="241.0" text="Visualizar novos cursos" />
             <Label fx:id="lblMeusCursos" layoutX="128.0" layoutY="202.0" text="Meus cursos:">
                <font>
                   <Font size="14.0" />
@@ -45,16 +45,6 @@
                 <TableColumn fx:id="tblCurso" prefWidth="434.3999481201172" text="Curso" />
               </columns>
             </TableView>
-            <Label fx:id="lblTotalHoras" layoutX="339.0" layoutY="363.0" text="Total de horas:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblTotalValor" layoutX="519.0" layoutY="363.0" text="Valor total:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
             <Button fx:id="btnAlterar" layoutX="128.0" layoutY="421.0" mnemonicParsing="false" onAction="#btnAlterarOnAction" prefHeight="25.0" prefWidth="149.0" text="Alterar perfil" />
             <Button fx:id="btnExcluir" layoutX="128.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnExcluirOnAction" prefHeight="25.0" prefWidth="149.0" text="Excluir perfil" />
             <Label fx:id="lblEmail" layoutX="541.0" layoutY="143.0" text="email@email.com" textAlignment="RIGHT">
@@ -62,6 +52,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="btnAtualizaTabela" layoutX="499.0" layoutY="373.0" mnemonicParsing="false" onAction="#btnAtualizaTabelaOnAction" prefHeight="25.0" prefWidth="157.0" text="Atualiza tabela" />
          </children>
       </Pane>
    </children>

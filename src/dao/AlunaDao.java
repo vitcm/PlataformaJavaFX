@@ -72,12 +72,11 @@ public class AlunaDao {
         PreparedStatement sql= null;
         try
         {
-            sql= conn.prepareStatement("UPDATE Aluno SET nomeAluno = (?), sobrenomeAluno = (?), emailAluno = (?), senhaAluno = (?) WHERE emailAluno = (?);");
+            sql= conn.prepareStatement("UPDATE Aluno SET nomeAluno = (?), sobrenomeAluno = (?), senhaAluno = (?) WHERE emailAluno = (?);");
             sql.setString(1,aln.getNomeAluna());
             sql.setString(2,aln.getSobrenomeAluna());
-            sql.setString(3,aln.getEmailAluna());
-            sql.setString(4,aln.getSenhaAluna());
-            sql.setString(5,email);
+            sql.setString(3,aln.getSenhaAluna());
+            sql.setString(4,email);
             sql.executeUpdate();
         }
         catch(Exception e)

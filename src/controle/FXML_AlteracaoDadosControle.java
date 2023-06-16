@@ -25,7 +25,7 @@ import modelo.Aluna;
 
 public class FXML_AlteracaoDadosControle {
 
-    private String email = "";
+    private String emailInit = "";
     private String nome = "";
     private String sobrenome = "";
     private String senha = "";
@@ -34,6 +34,8 @@ public class FXML_AlteracaoDadosControle {
         ADMIN,
         ALUNA
     }
+    
+    String tipoUsu="";
 
     private TipoUsuario tipoUsuario;
 
@@ -75,6 +77,21 @@ public class FXML_AlteracaoDadosControle {
 
     @FXML
     private TextField txtSobrenome;
+    
+        public void initialize(String email, String usuario) {
+        try {
+            emailInit = email;
+            tipoUsu=usuario;
+            if(tipoUsu.equals("admin")){
+                setDadosLoginAdmin(emailInit);
+            }
+            if(tipoUsu.equals("aluna")){
+                setDadosLoginAluna(emailInit);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void btnAlterarOnAction(ActionEvent event) throws IOException, Exception {
@@ -131,8 +148,8 @@ public class FXML_AlteracaoDadosControle {
             adm.setSenhaAdmin(txtSenha.getText());
 
             AdminDao admDao = new AdminDao();
-            boolean sucesso = admDao.alteraAdmin(adm, email);
-            System.out.println(email);
+            boolean sucesso = admDao.alteraAdmin(adm, emailInit);
+            System.out.println("TEEEEESTE"+emailInit);
 
             if (sucesso) {
                 exibirMensagemSucesso();
@@ -147,8 +164,8 @@ public class FXML_AlteracaoDadosControle {
             aluna.setSenhaAluna(txtSenha.getText());
 
             AlunaDao alunaDao = new AlunaDao();
-            boolean sucesso = alunaDao.alteraAluna(aluna, email);
-            System.out.println(email);
+            boolean sucesso = alunaDao.alteraAluna(aluna, emailInit);
+            System.out.println(emailInit);
 
             if (sucesso) {
                 exibirMensagemSucesso();

@@ -35,6 +35,8 @@ public class FXML_PerfilAdmControle {
 
     public String pessoa = "adm";
 
+    String usuario = "";
+
     @FXML
     private Button btnAlterarCurso;
 
@@ -90,18 +92,16 @@ public class FXML_PerfilAdmControle {
     private TextField txtCodigoAlterar;
 
     @FXML
-    private TextField txtCodigoExcluir;
-
-    @FXML
     private Text txtSubtitulo;
 
     @FXML
     private Text txtTitulo;
 
-    public void initialize(String email) {
+    public void initialize(String email, String tipoUsuario) {
         try {
             emailAdm = email;
             lblEmail.setText(email);
+            usuario = tipoUsuario;
             carregaTabela();
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class FXML_PerfilAdmControle {
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setTitle("Confirmação de Exclusão");
             confirmAlert.setHeaderText("Exclusão de curso");
-            confirmAlert.setContentText("Deseja mesmo excluir o curso "+cursoSelecionado.getTitulo()+"?");
+            confirmAlert.setContentText("Deseja mesmo excluir o curso " + cursoSelecionado.getTitulo() + "?");
 
             Optional<ButtonType> result = confirmAlert.showAndWait();
 
@@ -175,7 +175,37 @@ public class FXML_PerfilAdmControle {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             AdminDao admDao = new AdminDao();
+            InscricaoDao inscricaoDao = new InscricaoDao();
+            CursoDao cursoDao = new CursoDao();
 
+            // Obtém a lista de cursos do admin
+            ArrayList<Curso> cursosDoAdmin = cursoDao.obterCursosDoAdministrador(emailAdm);
+
+            // Exclui as inscrições nos cursos do admin
+            for (Curso curso : cursosDoAdmin) {
+                if (!inscricaoDao.excluiInscricao(curso.getCodigo())) {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erro");
+                    errorAlert.setHeaderText("Erro ao excluir perfil");
+                    errorAlert.setContentText("Ops, não foi possível excluir seu perfil ):");
+                    errorAlert.showAndWait();
+                    return; // Para interromper a exclusão do perfil em caso de erro na exclusão das inscrições
+                }
+            }
+
+            // Exclui os cursos do admin
+            for (Curso curso : cursosDoAdmin) {
+                if (!cursoDao.excluiCurso(curso.getCodigo())) {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erro");
+                    errorAlert.setHeaderText("Erro ao excluir perfil");
+                    errorAlert.setContentText("Ops, não foi possível excluir seu perfil ):");
+                    errorAlert.showAndWait();
+                    return; // Para interromper a exclusão do perfil em caso de erro na exclusão dos cursos
+                }
+            }
+
+            // Exclui o perfil do admin
             if (!admDao.excluiAdmin(emailAdm)) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Erro");
@@ -189,6 +219,9 @@ public class FXML_PerfilAdmControle {
                 successAlert.setContentText("Seu perfil foi excluído com sucesso!");
                 successAlert.showAndWait();
 
+                Stage loginStage = (Stage) btnExcluirPerfil.getScene().getWindow();
+                loginStage.close();
+
                 abreAreaLogin();
             }
         }
@@ -196,11 +229,6 @@ public class FXML_PerfilAdmControle {
 
     @FXML
     void tblTabelaOnSort(ActionEvent event) {
-
-    }
-
-    @FXML
-    void txtCodigoExcluirOnAction(ActionEvent event) {
 
     }
 
@@ -227,7 +255,7 @@ public class FXML_PerfilAdmControle {
             Parent root = loader.load();
 
             FXML_AlteracaoDadosControle alteracaoDadosControle = loader.getController();
-            alteracaoDadosControle.setDadosLoginAdmin(emailAdm);
+            alteracaoDadosControle.initialize(emailAdm, usuario);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
