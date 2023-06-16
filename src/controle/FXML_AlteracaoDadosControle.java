@@ -78,14 +78,14 @@ public class FXML_AlteracaoDadosControle {
     @FXML
     private TextField txtSobrenome;
     
-        public void initialize(String email, String usuario) {
+    public void initialize(String email, String usuario) {
         try {
             emailInit = email;
-            tipoUsu=usuario;
-            if(tipoUsu.equals("admin")){
+            tipoUsu = usuario;
+            if (tipoUsu.equals("admin")) {
                 setDadosLoginAdmin(emailInit);
             }
-            if(tipoUsu.equals("aluna")){
+            if (tipoUsu.equals("aluna")) {
                 setDadosLoginAluna(emailInit);
             }
         } catch (Exception e) {

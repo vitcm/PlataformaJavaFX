@@ -38,7 +38,7 @@ public class FXML_PerfilAdmControle {
     String usuario = "";
 
     @FXML
-    private Button btnAlterarCurso;
+    private Button btnAlterar;
 
     @FXML
     private Button btnAtualizaTabela;
@@ -74,6 +74,9 @@ public class FXML_PerfilAdmControle {
     private Label lblPublicados;
 
     @FXML
+    private Label lblAlteracao1;
+
+    @FXML
     private Line linha;
 
     @FXML
@@ -89,7 +92,7 @@ public class FXML_PerfilAdmControle {
     private TableColumn<Double, Curso> tblValor;
 
     @FXML
-    private TextField txtCodigoAlterar;
+    private TextField txtAlteracao;
 
     @FXML
     private Text txtSubtitulo;
@@ -106,6 +109,12 @@ public class FXML_PerfilAdmControle {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void btnAlterarOnAction(ActionEvent event) {
+        int codigoCurso = Integer.parseInt(txtAlteracao.getText());
+        abreJanelaAlteracaoCurso(codigoCurso);
     }
 
     @FXML
@@ -274,15 +283,6 @@ public class FXML_PerfilAdmControle {
         stage.show();
     }
 
-//    public void setDadosLogin(String email) {
-//        lblEmail.setText(email);
-//    }
-//
-//    //pega o email para passar para o alteracao dados
-//    public String getEmail() {
-//        emailAdm = lblEmail.getText();
-//        return emailAdm;
-//    }
     public void carregaTabela() throws Exception {
         CursoDao cursoDao = new CursoDao();
         ArrayList<Curso> cursos = cursoDao.obterCursosDoAdministrador(emailAdm);
@@ -295,5 +295,22 @@ public class FXML_PerfilAdmControle {
         tblCurso.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         tblValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
         tblTabela.setItems(dadosTabela);
+    }
+
+    public void abreJanelaAlteracaoCurso(int codigoCurso) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoCurso.fxml"));
+            Parent root = loader.load();
+
+            FXML_AlteracaoCursoControle alteracaoCursoControle = loader.getController();
+            alteracaoCursoControle.initialize(codigoCurso);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Alteracai Curso");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

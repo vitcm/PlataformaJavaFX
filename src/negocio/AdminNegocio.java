@@ -58,7 +58,7 @@ public class AdminNegocio {
         }
         return retorno;
     }
-    
+
     public boolean verificaNomeVazio(String nome) {
         boolean retorno = true;
         int cont = 0;
@@ -70,7 +70,7 @@ public class AdminNegocio {
         }
         return retorno;
     }
-    
+
     public boolean verificaSobrenomeVazio(String sobrenome) {
         boolean retorno = true;
         int cont = 0;
@@ -81,5 +81,44 @@ public class AdminNegocio {
             retorno = false;
         }
         return retorno;
+    }
+
+    public boolean verificaValidadeEmail(String email) {
+        boolean sim = false;
+        int cont = 0;
+        if (!email.endsWith(".com")) {
+            cont++;
+        }
+        if (!email.contains("@")) {
+            cont++;
+        }
+        if (cont == 0) {
+            sim = true;
+        }
+        return sim;
+    }
+
+    public boolean verificaValidadeSenha(String senha) {
+        boolean sim = false;
+        int cont = 0;
+        if (!senha.matches("\\d{6}")) {
+            cont++;
+        }
+        if (cont == 0) {
+            sim = true;
+        }
+        return sim;
+    }
+
+    public boolean verificaValidadeNome(String nome) {
+        boolean sim = false;
+        int cont = 0;
+        if(!nome.matches("[a-zA-ZÀ-ÿ]+")){
+            cont++;
+        }
+        if (cont == 0) {
+            sim = true;
+        }
+        return sim;
     }
 }

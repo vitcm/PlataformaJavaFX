@@ -42,7 +42,7 @@ public class FXML_CadastroPessoaControle {
 
     @FXML
     private Label lblEmail;
-    
+
     @FXML
     private Label lblMensagem;
 
@@ -91,18 +91,38 @@ public class FXML_CadastroPessoaControle {
             if (!adn.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
+            } else {
+                if (!adn.verificaValidadeEmail(email)) {
+                    txtEmail.setText("Favor, digitar um email válido!");
+                    cont++;
+                }
             }
             if (!adn.verificaSenhaVazio(senha)) {
                 txtSenha.setText("Favor, completar a senha!");
                 cont++;
+            } else {
+                if (!adn.verificaValidadeSenha(senha)) {
+                    txtSenha.setText("Favor, digitar uma senha válida - 6 números!");
+                    cont++;
+                }
             }
             if (!adn.verificaNomeVazio(nome)) {
                 txtEmail.setText("Favor, completar o nome!");
                 cont++;
+            } else {
+                if (!adn.verificaValidadeNome(nome)) {
+                    txtNome.setText("Favor, inserir um Nome válido.");
+                    cont++;
+                }
             }
             if (!adn.verificaSobrenomeVazio(sobrenome)) {
                 txtSenha.setText("Favor, completar o sobrenome!");
                 cont++;
+            } else {
+                if (!adn.verificaValidadeNome(sobrenome)) {
+                    txtSobrenome.setText("Favor, inserir um sobrenome válido.");
+                    cont++;
+                }
             }
             if (cont == 0) {
                 if (adicionaAdmin()) {
@@ -123,7 +143,7 @@ public class FXML_CadastroPessoaControle {
                 }
             }
 
-        } 
+        }
         if (rbtEstudante.isSelected()) {
             String nome = txtNome.getText();
             String sobrenome = txtSobrenome.getText();
@@ -134,18 +154,38 @@ public class FXML_CadastroPessoaControle {
             if (!aln.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
+            } else {
+                if (!aln.verificaValidadeEmail(email)) {
+                    txtEmail.setText("Favor, digitar um email válido!");
+                    cont++;
+                }
             }
             if (!aln.verificaSenhaVazio(senha)) {
                 txtSenha.setText("Favor, completar a senha!");
                 cont++;
+            } else {
+                if (!adn.verificaValidadeSenha(senha)) {
+                    txtSenha.setText("Favor, digitar uma senha válida - 6 números!");
+                    cont++;
+                }
             }
             if (!aln.verificaNomeVazio(nome)) {
-                txtEmail.setText("Favor, completar o nome!");
+                txtNome.setText("Favor, completar o nome!");
                 cont++;
+            } else {
+                if (!aln.verificaValidadeNome(nome)) {
+                    txtNome.setText("Favor, inserir um nome válido.");
+                    cont++;
+                }
             }
             if (!aln.verificaSobrenomeVazio(sobrenome)) {
-                txtSenha.setText("Favor, completar o sobrenome!");
+                txtSobrenome.setText("Favor, completar o sobrenome!");
                 cont++;
+            } else {
+                if (!aln.verificaValidadeNome(sobrenome)) {
+                    txtSobrenome.setText("Favor, inserir um sobrenome válido.");
+                    cont++;
+                }
             }
             if (cont == 0) {
                 if (adicionaAluna()) {
@@ -234,7 +274,7 @@ public class FXML_CadastroPessoaControle {
 
         return retorno;
     }
-    
+
     public boolean adicionaAluna() {
         boolean retorno = false;
         String nome = txtNome.getText();

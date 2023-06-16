@@ -2,18 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
         <file>
-            <url>src/controle/FXML_CadastroAreaControle.java</url>
-            <bookmark id="2">
+            <url>src/controle/FXML_AlteracaoDadosControle.java</url>
+            <bookmark id="1">
                 <name/>
-                <line>132</line>
+                <line>196</line>
                 <key/>
             </bookmark>
         </file>
         <file>
-            <url>src/controle/FXML_AlteracaoDadosControle.java</url>
-            <bookmark id="1">
+            <url>src/controle/FXML_CadastroAreaControle.java</url>
+            <bookmark id="2">
                 <name/>
-                <line>179</line>
+                <line>132</line>
                 <key/>
             </bookmark>
         </file>
