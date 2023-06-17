@@ -2,6 +2,10 @@ package controle;
 
 import dao.AreaDao;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -21,6 +26,10 @@ import negocio.AreaNegocio;
 public class FXML_CadastroAreaControle {
 
     AreaNegocio arean = new AreaNegocio();
+    private ResourceBundle resourceBundle;
+
+    @FXML
+    private ComboBox<String> cbxIdioma;
 
     @FXML
     private Button btnCadastrar;
@@ -46,34 +55,65 @@ public class FXML_CadastroAreaControle {
     @FXML
     private Text txtTitulo;
 
+    public void initialize() {
+        // Inicializar a ComboBox com as opções de idioma
+        ObservableList<String> languages = FXCollections.observableArrayList(
+                "Português",
+                "Inglês",
+                "Espanhol"
+        );
+        cbxIdioma.setItems(languages);
+
+        // Configurar o evento de seleção da ComboBox
+        cbxIdioma.setOnAction(this::handleLanguageSelection);
+    }
+
+    @FXML
+    void cbxIdiomaOnAction(ActionEvent event) {
+        ObservableList<String> idiomas = FXCollections.observableArrayList(
+                "Português",
+                "Inglês",
+                "Espanhol"
+        );
+        cbxIdioma.setItems(idiomas);
+    }
+
     @FXML
     void btnCadastrarOnAction(ActionEvent event) throws IOException {
         String nome = txtNome.getText();
         String pchave = txtPalavrasChave.getText();
         int cont = 0;
         if (!arean.verificaNomeVazio(nome)) {
-            txtNome.setText("Favor, inserir nome para a área!");
+            Alert alertaNomeVazio = new Alert(Alert.AlertType.WARNING);
+            alertaNomeVazio.setTitle(resourceBundle.getString("alertaErro1"));
+            alertaNomeVazio.setHeaderText(null);
+            alertaNomeVazio.setContentText(resourceBundle.getString("alertaNomeVazio"));
+            alertaNomeVazio.showAndWait();
             cont++;
         }
         if (!arean.verificaPalavraChaveVazia(pchave)) {
-            txtPalavrasChave.setText("Favor, inserir palavras chave!");
+            Alert alertaPChaveVazio = new Alert(Alert.AlertType.WARNING);
+            alertaPChaveVazio.setTitle(resourceBundle.getString("alertaErro1"));
+            alertaPChaveVazio.setHeaderText(null);
+            alertaPChaveVazio.setContentText(resourceBundle.getString("alertaPChaveVazio"));
+            alertaPChaveVazio.showAndWait();
             cont++;
         }
         if (cont == 0) {
             if (adicionaArea()) {
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setTitle("Sucesso");
-                successAlert.setHeaderText(null);
-                successAlert.setContentText("Cadastro realizado com sucesso!");
-                successAlert.showAndWait();
+                Alert alertaSucesso = new Alert(Alert.AlertType.INFORMATION);
+                alertaSucesso.setTitle(resourceBundle.getString("alertaSucesso1"));
+                alertaSucesso.setHeaderText(null);
+                alertaSucesso.setContentText(resourceBundle.getString("alertaSucesso2"));
+                alertaSucesso.showAndWait();
                 Stage loginStage = (Stage) btnCadastrar.getScene().getWindow();
                 loginStage.close();
             } else {
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setTitle("Erro");
-                errorAlert.setHeaderText(null);
-                errorAlert.setContentText("Falha ao cadastrar.");
-                errorAlert.showAndWait();
+                Alert alertaErro = new Alert(Alert.AlertType.ERROR);
+                alertaErro.setTitle(resourceBundle.getString("alertaErro1"));
+                alertaErro.setHeaderText(null);
+                alertaErro.setContentText(resourceBundle.getString("alertaErro2"));
+                alertaErro.showAndWait();
             }
         }
     }
@@ -113,11 +153,11 @@ public class FXML_CadastroAreaControle {
             boolean areaExistente = verificaAreaExistente(nome);
 
             if (areaExistente) {
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setTitle("Área já existe");
-                successAlert.setHeaderText(null);
-                successAlert.setContentText("Ops! Essa área já existe, não é possível duplicar.");
-                successAlert.showAndWait();
+                Alert alertaExistente = new Alert(Alert.AlertType.INFORMATION);
+                alertaExistente.setTitle(resourceBundle.getString("alertaExistente1"));
+                alertaExistente.setHeaderText(null);
+                alertaExistente.setContentText(resourceBundle.getString("alertaExistente2"));
+                alertaExistente.showAndWait();
                 return false;
             }
             Area area = new Area();
@@ -138,5 +178,31 @@ public class FXML_CadastroAreaControle {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void handleLanguageSelection(ActionEvent event) {
+        String selectedLanguage = cbxIdioma.getSelectionModel().getSelectedItem();
+        Locale locale;
+
+        if (selectedLanguage.equals("Português")) {
+            locale = new Locale("pt");
+        } else if (selectedLanguage.equals("Inglês")) {
+            locale = new Locale("en");
+        } else {
+            locale = new Locale("es");
+        }
+
+        ResourceBundle.Control control = ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES);
+        resourceBundle = ResourceBundle.getBundle("resources.mensagens", locale, control);
+        updateResourceBundle();
+    }
+
+    private void updateResourceBundle() {
+        // Atualizar as mensagens dos elementos da interface
+        txtTitulo.setText(resourceBundle.getString("titulo"));
+        txtSubtitulo.setText(resourceBundle.getString("subtitulo"));
+        lblNome.setText(resourceBundle.getString("lblNome"));
+        lblPalavrasChave.setText(resourceBundle.getString("lblPChave"));
+        btnCadastrar.setText(resourceBundle.getString("btnCadastrar"));
     }
 }

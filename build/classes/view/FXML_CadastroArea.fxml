@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -27,7 +28,8 @@
       <TextField fx:id="txtNome" layoutX="114.0" layoutY="221.0" onAction="#txtNomeOnAction" prefHeight="25.0" prefWidth="536.0" />
       <Label fx:id="lblNome" layoutX="114.0" layoutY="204.0" text="Nome:" />
       <Button fx:id="btnCadastrar" layoutX="118.0" layoutY="371.0" mnemonicParsing="false" onAction="#btnCadastrarOnAction" prefHeight="25.0" prefWidth="536.0" text="Cadastrar" />
-      <TextField fx:id="txtPalavrasChave" layoutX="114.0" layoutY="274.0" onAction="#txtPalavrasChaveOnAction" prefHeight="25.0" prefWidth="536.0" promptText="Separe por vírgula" />
+      <TextField fx:id="txtPalavrasChave" layoutX="114.0" layoutY="274.0" onAction="#txtPalavrasChaveOnAction" prefHeight="25.0" prefWidth="536.0" />
       <Label fx:id="lblPalavrasChave" layoutX="114.0" layoutY="257.0" text="Palavras-chave:" />
+      <ComboBox fx:id="cbxIdioma" layoutX="114.0" layoutY="126.0" onAction="#cbxIdiomaOnAction" prefHeight="26.0" prefWidth="110.0" promptText="Idioma" />
    </children>
 </AnchorPane>
