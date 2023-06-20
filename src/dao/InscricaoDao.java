@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.Curso;
-
+/**
+ * Conexão com o banco de dados - conexão com a tabela INSCRICAO
+ */
 public class InscricaoDao {
 
     public boolean adicionaCurso(int codigoCurso, String emailAluna) throws Exception {

@@ -1,5 +1,8 @@
 package modelo;
-
+/**
+ * A classe Auna representa um aluno do sistema. Possui informações
+ * como nome, sobrenome, email e senha do aluno.
+ */
 public class Aluna {
     private String nomeAluna, sobrenomeAluna, emailAluna, senhaAluna;
 

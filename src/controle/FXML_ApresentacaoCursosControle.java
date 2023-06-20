@@ -22,6 +22,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import modelo.Curso;
 
+/**
+ * Controlador para a interface de apresentação de cursos.
+ */
 public class FXML_ApresentacaoCursosControle {
 
     private ArrayList<Curso> cursos; // Lista com todos os cursos
@@ -71,6 +74,9 @@ public class FXML_ApresentacaoCursosControle {
     @FXML
     private TextField txtCurso;
 
+    /**
+     * Inicializa o controlador.
+     */
     public void initialize() {
         try {
             carregaTabela();
@@ -113,6 +119,11 @@ public class FXML_ApresentacaoCursosControle {
 
     }
 
+    /**
+     * Carrega os dados da tabela de cursos.
+     *
+     * @throws Exception Exceção caso ocorra um erro durante a operação.
+     */
     public void carregaTabela() throws Exception {
         CursoDao cursoDao = new CursoDao();
         cursos = cursoDao.obterCursos();
@@ -127,6 +138,11 @@ public class FXML_ApresentacaoCursosControle {
         tabela.setItems(dadosTabela);
     }
 
+    /**
+     * Abre a área de login.
+     *
+     * @throws IOException Exceção caso ocorra um erro durante a operação.
+     */
     public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);

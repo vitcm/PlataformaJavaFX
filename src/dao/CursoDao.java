@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.Curso;
-
+/**
+ * Conexão com o banco de dados - conexão com a tabela CURSO
+ */
 public class CursoDao {
 
     public boolean adicionaCurso(Curso curso, int codArea, String emailAdmin) throws Exception {
@@ -259,6 +261,30 @@ public class CursoDao {
         }
 
         return curso;
+    }
+    
+    public boolean confirmaExistenciaCurso(int codigoCurso) throws Exception {
+        boolean retorno = false;
+        Connection conn = Conexao.getConnection();
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        Curso curso = null;
+
+        try {
+            sql = conn.prepareStatement("SELECT * FROM Curso WHERE codigocurso = ?");
+            sql.setInt(1, codigoCurso);
+            rs = sql.executeQuery();
+
+            if (rs.next()) {
+                retorno=true;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao obter curso por código: " + e);
+        } finally {
+            Conexao.closeConnection(conn, sql, rs);
+        }
+
+        return retorno;
     }
 
 }

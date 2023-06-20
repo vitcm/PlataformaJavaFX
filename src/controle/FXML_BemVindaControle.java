@@ -14,9 +14,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Controlador para a interface de boas-vindas.
+ */
 public class FXML_BemVindaControle {
 
-      @FXML
+    @FXML
     private Button btnLogin;
 
     @FXML
@@ -55,8 +58,13 @@ public class FXML_BemVindaControle {
     void btnVerCursosOnAction(ActionEvent event) throws IOException {
         abreJanelaCursos();
     }
-    
-    public void abreJanelaCursos() throws IOException{
+
+    /**
+     * Abre a janela de cursos.
+     *
+     * @throws IOException Exceção caso ocorra um erro durante a operação.
+     */
+    public void abreJanelaCursos() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_ApresentacaoCursos.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -64,8 +72,13 @@ public class FXML_BemVindaControle {
         //stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
-    
-    public void abreAreaLogin() throws IOException{
+
+    /**
+     * Abre a área de login.
+     *
+     * @throws IOException Exceção caso ocorra um erro durante a operação.
+     */
+    public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();

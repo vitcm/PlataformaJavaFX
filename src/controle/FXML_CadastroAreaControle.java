@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 import modelo.Area;
 import negocio.AreaNegocio;
 
+/**
+ * Controlador para a interface de cadastro de áreas.
+ */
 public class FXML_CadastroAreaControle {
 
     AreaNegocio arean = new AreaNegocio();
@@ -55,6 +58,9 @@ public class FXML_CadastroAreaControle {
     @FXML
     private Text txtTitulo;
 
+        /**
+     * Inicializa a interface de cadastro de áreas.
+     */
     public void initialize() {
         // Inicializar a ComboBox com as opções de idioma
         ObservableList<String> languages = FXCollections.observableArrayList(
@@ -128,6 +134,11 @@ public class FXML_CadastroAreaControle {
 
     }
 
+        /**
+     * Verifica se uma área com o nome fornecido já existe.
+     * @param nome O nome da área a ser verificada.
+     * @return true se a área existir, false caso contrário.
+     */
     public boolean verificaAreaExistente(String nome) {
         boolean areaExistente = false;
 
@@ -144,6 +155,10 @@ public class FXML_CadastroAreaControle {
         return areaExistente;
     }
 
+        /**
+     * Adiciona uma nova área.
+     * @return true se a área foi adicionada com sucesso, false caso contrário.
+     */
     public boolean adicionaArea() {
         boolean retorno = false;
         String nome = txtNome.getText(); // Converte para maiúsculas
@@ -172,6 +187,10 @@ public class FXML_CadastroAreaControle {
         return retorno;
     }
 
+    /**
+     * Abre a área de cadastro de cursos.
+     * @throws IOException Exceção caso ocorra um erro durante a operação.
+     */
     public void abreAreaCadastroCurso() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
         Scene scene = new Scene(root);
@@ -180,6 +199,10 @@ public class FXML_CadastroAreaControle {
         stage.show();
     }
 
+    /**
+     * Manipula o evento de seleção de idioma na ComboBox.
+     * @param event O evento de seleção de idioma.
+     */
     private void handleLanguageSelection(ActionEvent event) {
         String selectedLanguage = cbxIdioma.getSelectionModel().getSelectedItem();
         Locale locale;
@@ -197,6 +220,9 @@ public class FXML_CadastroAreaControle {
         updateResourceBundle();
     }
 
+    /**
+     * Atualiza o ResourceBundle com as mensagens correspondentes ao idioma selecionado.
+     */
     private void updateResourceBundle() {
         // Atualizar as mensagens dos elementos da interface
         txtTitulo.setText(resourceBundle.getString("titulo"));

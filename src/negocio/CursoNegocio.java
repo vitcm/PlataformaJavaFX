@@ -1,5 +1,8 @@
 package negocio;
-
+/**
+ * A classe CursoNegocio representa as regras de negócio do projeto.
+ * Aqui estão especificadas as regras que envolvem o objeto Curso.
+ */
 public class CursoNegocio {
 
     public boolean verificaNomeVazio(String nome) {

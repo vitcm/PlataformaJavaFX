@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 import modelo.Admin;
 import modelo.Aluna;
 
+/**
+ * Controlador para a interface FXML de alteração de dados.
+ */
 public class FXML_AlteracaoDadosControle {
 
     private String emailInit = "";
@@ -34,8 +37,8 @@ public class FXML_AlteracaoDadosControle {
         ADMIN,
         ALUNA
     }
-    
-    String tipoUsu="";
+
+    String tipoUsu = "";
 
     private TipoUsuario tipoUsuario;
 
@@ -77,7 +80,13 @@ public class FXML_AlteracaoDadosControle {
 
     @FXML
     private TextField txtSobrenome;
-    
+
+    /**
+     * Inicializa o controlador.
+     *
+     * @param email O email do usuário.
+     * @param usuario O tipo de usuário ("admin" ou "aluna").
+     */
     public void initialize(String email, String usuario) {
         try {
             emailInit = email;
@@ -118,6 +127,14 @@ public class FXML_AlteracaoDadosControle {
 
     }
 
+    /**
+     * Abre uma janela de confirmação para a alteração dos dados.
+     *
+     * @throws IOException Exceção de E/S caso ocorra um erro na abertura da
+     * janela.
+     * @throws Exception Exceção genérica caso ocorra um erro durante a
+     * operação.
+     */
     public void abreJanelaConfirmação() throws IOException, Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -140,6 +157,12 @@ public class FXML_AlteracaoDadosControle {
         });
     }
 
+    /**
+     * Realiza a alteração dos dados.
+     *
+     * @throws Exception Exceção genérica caso ocorra um erro durante a
+     * operação.
+     */
     public void realizarAlteracao() throws Exception {
         if (tipoUsuario == TipoUsuario.ADMIN) {
             Admin adm = new Admin();
@@ -149,7 +172,7 @@ public class FXML_AlteracaoDadosControle {
 
             AdminDao admDao = new AdminDao();
             boolean sucesso = admDao.alteraAdmin(adm, emailInit);
-            System.out.println("TEEEEESTE"+emailInit);
+            System.out.println("TEEEEESTE" + emailInit);
 
             if (sucesso) {
                 exibirMensagemSucesso();
@@ -176,6 +199,9 @@ public class FXML_AlteracaoDadosControle {
 
     }
 
+    /**
+     * Exibe uma mensagem de sucesso.
+     */
     public void exibirMensagemSucesso() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sucesso");
@@ -184,6 +210,9 @@ public class FXML_AlteracaoDadosControle {
         alert.showAndWait();
     }
 
+    /**
+     * Exibe uma mensagem de erro.
+     */
     public void exibirMensagemErro() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -192,7 +221,13 @@ public class FXML_AlteracaoDadosControle {
         alert.showAndWait();
     }
 
-    //pega os dados do Perfil para inserir nos campos de texto
+    /**
+     * Define os dados do usuário administrador nos campos de texto.
+     *
+     * @param email O email do usuário administrador.
+     * @throws Exception Exceção genérica caso ocorra um erro durante a
+     * operação.
+     */
     public void setDadosLoginAdmin(String email) throws Exception {
         AdminDao admDao = new AdminDao();
         Admin adm = new Admin();
@@ -208,6 +243,13 @@ public class FXML_AlteracaoDadosControle {
         tipoUsuario = TipoUsuario.ADMIN;
     }
 
+    /**
+     * Define os dados da aluna nos campos de texto.
+     *
+     * @param email O email da aluna.
+     * @throws Exception Exceção genérica caso ocorra um erro durante a
+     * operação.
+     */
     public void setDadosLoginAluna(String email) throws Exception {
         AlunaDao alDao = new AlunaDao();
         Aluna al = new Aluna();

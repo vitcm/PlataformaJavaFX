@@ -23,6 +23,9 @@ import modelo.Aluna;
 import negocio.AdminNegocio;
 import negocio.AlunaNegocio;
 
+/**
+ * Controlador responsável pela tela de cadastro de pessoas.
+ */
 public class FXML_CadastroPessoaControle {
 
     AdminNegocio adn = new AdminNegocio();
@@ -245,6 +248,11 @@ public class FXML_CadastroPessoaControle {
 
     }
 
+    /**
+     * Abre a área de login.
+     *
+     * @throws IOException Se ocorrer um erro ao carregar a interface de login.
+     */
     public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);
@@ -253,6 +261,12 @@ public class FXML_CadastroPessoaControle {
         stage.show();
     }
 
+    /**
+     * Adiciona um administrador ao banco de dados.
+     *
+     * @return true se o administrador foi adicionado com sucesso, false caso
+     * contrário.
+     */
     public boolean adicionaAdmin() {
         boolean retorno = false;
         String nome = txtNome.getText();
@@ -275,6 +289,11 @@ public class FXML_CadastroPessoaControle {
         return retorno;
     }
 
+    /**
+     * Adiciona uma aluna ao banco de dados.
+     *
+     * @return true se a aluna foi adicionada com sucesso, false caso contrário.
+     */
     public boolean adicionaAluna() {
         boolean retorno = false;
         String nome = txtNome.getText();

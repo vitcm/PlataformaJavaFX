@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import modelo.Aluna;
-
+/**
+ * Conexão com o banco de dados - conexão com a tabela ALUNO
+ */
 public class AlunaDao {
     public boolean adicionaAluna(Aluna aln) throws Exception{
         boolean retorno = true;

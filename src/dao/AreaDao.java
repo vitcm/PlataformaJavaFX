@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.Area;
-
+/**
+ * Conexão com o banco de dados - conexão com a tabela AREA
+ */
 public class AreaDao {
 
     public boolean adicionaArea(Area area) throws Exception {

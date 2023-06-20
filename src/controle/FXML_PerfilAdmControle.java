@@ -28,6 +28,9 @@ import javafx.stage.Stage;
 import modelo.Admin;
 import modelo.Curso;
 
+/**
+ * Controlador para a tela de perfil do administrador.
+ */
 public class FXML_PerfilAdmControle {
 
     private Admin admin = new Admin();
@@ -100,6 +103,12 @@ public class FXML_PerfilAdmControle {
     @FXML
     private Text txtTitulo;
 
+    /**
+     * Inicializa o controlador.
+     *
+     * @param email O email do administrador.
+     * @param tipoUsuario O tipo de usuário (aluno ou administrador).
+     */
     public void initialize(String email, String tipoUsuario) {
         try {
             emailAdm = email;
@@ -112,7 +121,7 @@ public class FXML_PerfilAdmControle {
     }
 
     @FXML
-    void btnAlterarOnAction(ActionEvent event) {
+    void btnAlterarOnAction(ActionEvent event) throws Exception {
         int codigoCurso = Integer.parseInt(txtAlteracao.getText());
         abreJanelaAlteracaoCurso(codigoCurso);
     }
@@ -241,6 +250,11 @@ public class FXML_PerfilAdmControle {
 
     }
 
+    /**
+     * Abre a janela de cadastro de curso.
+     *
+     * @throws IOException se ocorrer um erro de I/O ao carregar a janela
+     */
     public void abreJanelaCadastroCurso() throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroCurso.fxml"));
@@ -258,6 +272,13 @@ public class FXML_PerfilAdmControle {
         }
     }
 
+    /**
+     * Abre a janela de alteração de dados do administrador.
+     *
+     * @throws IOException se ocorrer um erro de I/O ao carregar a janela
+     * @throws Exception se ocorrer um erro ao inicializar o controlador da
+     * janela
+     */
     public void abreJanelaAlteracao() throws IOException, Exception {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
@@ -275,6 +296,11 @@ public class FXML_PerfilAdmControle {
         }
     }
 
+    /**
+     * Abre a área de login.
+     *
+     * @throws IOException se ocorrer um erro de I/O ao carregar a janela
+     */
     public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);
@@ -283,6 +309,11 @@ public class FXML_PerfilAdmControle {
         stage.show();
     }
 
+    /**
+     * Carrega a tabela com os cursos do administrador.
+     *
+     * @throws Exception se ocorrer um erro ao acessar o banco de dados
+     */
     public void carregaTabela() throws Exception {
         CursoDao cursoDao = new CursoDao();
         ArrayList<Curso> cursos = cursoDao.obterCursosDoAdministrador(emailAdm);
@@ -297,20 +328,34 @@ public class FXML_PerfilAdmControle {
         tblTabela.setItems(dadosTabela);
     }
 
-    public void abreJanelaAlteracaoCurso(int codigoCurso) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoCurso.fxml"));
-            Parent root = loader.load();
+    /**
+     * Abre a janela de alteração de um curso específico.
+     *
+     * @param codigo O código do curso a ser alterado
+     */
+    public void abreJanelaAlteracaoCurso(int codigoCurso) throws Exception {
+        CursoDao cursoDao = new CursoDao();
+        if (!cursoDao.confirmaExistenciaCurso(codigoCurso)) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Erro");
+            errorAlert.setHeaderText("Erro ao encontrar curso");
+            errorAlert.setContentText("Ops, não foi possível encontrar esse código de curso ):");
+            errorAlert.showAndWait();
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoCurso.fxml"));
+                Parent root = loader.load();
 
-            FXML_AlteracaoCursoControle alteracaoCursoControle = loader.getController();
-            alteracaoCursoControle.initialize(codigoCurso);
+                FXML_AlteracaoCursoControle alteracaoCursoControle = loader.getController();
+                alteracaoCursoControle.initialize(codigoCurso);
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Alteracai Curso");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Alteracao Curso");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

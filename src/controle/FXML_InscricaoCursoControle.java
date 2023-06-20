@@ -17,11 +17,14 @@ import modelo.Area;
 import modelo.Curso;
 import negocio.AlunaNegocio;
 
+/**
+ * Classe de controle para a interface de inscrição em um curso.
+ */
 public class FXML_InscricaoCursoControle {
 
     private String email;
     private int codigoCurso;
-    
+
     AlunaNegocio alunaN = new AlunaNegocio();
 
     @FXML
@@ -57,6 +60,13 @@ public class FXML_InscricaoCursoControle {
     @FXML
     private TextField txtSenha;
 
+    /**
+     * Inicializa a interface de inscrição com as informações do curso e o email
+     * da aluna.
+     *
+     * @param curso O curso a ser inscrito.
+     * @param emailAl O email da aluna.
+     */
     public void initialize(Curso curso, String emailAl) {
         try {
             email = emailAl;
@@ -109,6 +119,12 @@ public class FXML_InscricaoCursoControle {
 
     }
 
+    /**
+     * Define os detalhes do curso na interface.
+     *
+     * @param curso O curso.
+     * @throws Exception Se ocorrer um erro ao obter os detalhes do curso.
+     */
     public void defineCurso(Curso curso) throws Exception {
         System.out.println(curso.getTitulo());
         String titulo = curso.getTitulo();
@@ -120,13 +136,19 @@ public class FXML_InscricaoCursoControle {
 //        AreaDao areaDao = new AreaDao();
 //        String nomeArea = "";
 //        nomeArea = areaDao.pesquisaAreaPorCodigo(area);
-
         String detalhes = "Curso: " + titulo + "\n" + "Palavras Chave: " + pchave + "\n" + "Valor: R$" + valor
                 + "\n" + "Carga Horária: " + choraria;
 
         lblDetalhes.setText(detalhes);
     }
-    
+
+    /**
+     * Adiciona a inscrição no curso para a aluna.
+     *
+     * @return true se a inscrição foi adicionada com sucesso, false caso
+     * contrário.
+     * @throws Exception Se ocorrer um erro ao adicionar a inscrição.
+     */
     public boolean adicionaInscricao() throws Exception {
         boolean retorno = false;
         String email = txtLogin.getText();
@@ -149,7 +171,15 @@ public class FXML_InscricaoCursoControle {
         return retorno;
     }
 
-    private boolean validaDadosLogin(String email, String senha) throws Exception { 
+    /**
+     * Valida os dados de login da aluna.
+     *
+     * @param email O email da aluna.
+     * @param senha A senha da aluna.
+     * @return true se os dados de login são válidos, false caso contrário.
+     * @throws Exception Se ocorrer um erro ao validar os dados de login.
+     */
+    private boolean validaDadosLogin(String email, String senha) throws Exception {
         return (alunaN.validaDadosLogin(email, senha));
     }
 

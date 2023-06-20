@@ -2,7 +2,10 @@ package negocio;
 
 import dao.AdminDao;
 import modelo.Admin;
-
+/**
+ * A classe AdminNegocio representa as regras de negócio do projeto.
+ * Aqui estão especificadas as regras que envolvem o objeto Admin.
+ */
 public class AdminNegocio {
 
     //Valida email e a senha para login

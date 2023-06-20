@@ -8,9 +8,24 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="TrabalhoFinal.jar" size="80547" download="eager" />
+    <jar href="TrabalhoFinal.jar" size="79389" download="eager" />
+    <jar href="lib\commons-beanutils-1.9.4.jar" size="246918" download="eager" />
+    <jar href="lib\commons-collections-3.2.2.jar" size="588337" download="eager" />
+    <jar href="lib\commons-collections4-4.4.jar" size="751914" download="eager" />
+    <jar href="lib\commons-digester-2.1.jar" size="196768" download="eager" />
+    <jar href="lib\commons-logging-1.2.1.1.jar" size="60686" download="eager" />
+    <jar href="lib\commons-logging-1.2.jar" size="61829" download="eager" />
+    <jar href="lib\fontbox-2.0.17.jar" size="1558957" download="eager" />
+    <jar href="lib\groovy-all-2.4.15.jar" size="7164868" download="eager" />
+    <jar href="lib\jasperreports-6.20.1.jar" size="5717374" download="eager" />
+    <jar href="lib\jasperreports-custom-visualization-6.20.1.jar" size="129131" download="eager" />
+    <jar href="lib\jasperreports-fonts-6.20.1.jar" size="4949473" download="eager" />
+    <jar href="lib\jasperreports-functions-6.20.1.jar" size="35528" download="eager" />
+    <jar href="lib\jasperreports-javaflow-6.20.1.jar" size="5664902" download="eager" />
+    <jar href="lib\jdt-compiler-3.1.1.jar" size="1212369" download="eager" />
+    <jar href="lib\pdfbox-2.0.17.jar" size="2690978" download="eager" />
     <jar href="lib\postgresql-42.2.16.jar" size="1002883" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="800" height="600" main-class="trabalhofinal.TrabalhoFinal"  name="TrabalhoFinal" />
+  <jfx:javafx-desc  width="800" height="600" main-class="aplicacao.Main"  name="TrabalhoFinal" />
   <update check="always"/>
 </jnlp>

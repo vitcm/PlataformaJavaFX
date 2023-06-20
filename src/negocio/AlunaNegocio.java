@@ -2,7 +2,10 @@ package negocio;
 
 import dao.AlunaDao;
 import modelo.Aluna;
-
+/**
+ * A classe AlunaNegocio representa as regras de negócio do projeto.
+ * Aqui estão especificadas as regras que envolvem o objeto Aluna.
+ */
 public class AlunaNegocio {
 
     //Valida email e a senha para login

@@ -1,8 +1,12 @@
 package modelo;
 
+/**
+ * A classe Admin representa um administrador do sistema. Possui informações
+ * como nome, sobrenome, email e senha do administrador.
+ */
 public class Admin {
-    private String nomeAdmin, sobrenomeAdmin, emailAdmin, senhaAdmin;
 
+    private String nomeAdmin, sobrenomeAdmin, emailAdmin, senhaAdmin;
 
     public String getNomeAdmin() {
         return nomeAdmin;

@@ -28,6 +28,9 @@ import javafx.stage.Stage;
 import modelo.Aluna;
 import modelo.Curso;
 
+/**
+ * Controlador para a tela de perfil do aluno.
+ */
 public class FXML_PerfilAlunoControle {
 
     private Aluna aluna = new Aluna();
@@ -80,6 +83,12 @@ public class FXML_PerfilAlunoControle {
     @FXML
     private TableColumn<String, Curso> tblCurso;
 
+    /**
+     * Inicializa o controlador com o email do aluno e o tipo de usuário.
+     *
+     * @param email O email do aluno
+     * @param tipoUsuario O tipo de usuário
+     */
     public void initialize(String email, String tipoUsuario) {
         try {
             emailAluna = email;
@@ -152,6 +161,12 @@ public class FXML_PerfilAlunoControle {
 
     }
 
+    /**
+     * Abre a janela de cursos para visualização.
+     *
+     * @throws IOException se ocorrer um erro de leitura do arquivo FXML
+     * @throws Exception se ocorrer um erro ao acessar o banco de dados
+     */
     public void abreJanelaCursos() throws IOException, Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_ListaCursos.fxml"));
         Parent root = loader.load();
@@ -165,6 +180,12 @@ public class FXML_PerfilAlunoControle {
         stage.show();
     }
 
+    /**
+     * Abre a janela de alteração dos dados do aluno.
+     *
+     * @throws IOException se ocorrer um erro de leitura do arquivo FXML
+     * @throws Exception se ocorrer um erro ao acessar o banco de dados
+     */
     public void abreJanelaAlteracao() throws IOException, Exception {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_AlteracaoDados.fxml"));
@@ -182,6 +203,11 @@ public class FXML_PerfilAlunoControle {
         }
     }
 
+    /**
+     * Abre a área de login.
+     *
+     * @throws IOException se ocorrer um erro de leitura do arquivo FXML
+     */
     public void abreAreaLogin() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_Login.fxml"));
         Scene scene = new Scene(root);
@@ -190,6 +216,11 @@ public class FXML_PerfilAlunoControle {
         stage.show();
     }
 
+    /**
+     * Carrega a tabela com os cursos do aluno.
+     *
+     * @throws Exception se ocorrer um erro ao acessar o banco de dados
+     */
     public void carregaTabela() throws Exception {
         InscricaoDao inscricaoDao = new InscricaoDao();
         CursoDao cursoDao = new CursoDao();

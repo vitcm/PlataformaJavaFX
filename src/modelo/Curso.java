@@ -1,10 +1,14 @@
 package modelo;
-
+/**
+ * A classe Curso representa um curso do sistema. Possui informações
+ * como titulo, palavra chave, area, carga horaria e codigo.
+ */
 public class Curso {
 
     private String titulo, palavra_chave_curso;
     private int area;
     private int c_horaria, codigo;
+    private double valor;
 
     public int getArea() {
         return area;
@@ -21,7 +25,7 @@ public class Curso {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    private double valor;
+    
 
     public String getTitulo() {
         return titulo;

@@ -20,13 +20,16 @@ import javafx.scene.control.Alert.AlertType;
 import negocio.AdminNegocio;
 import negocio.AlunaNegocio;
 
+/**
+ * Controlador responsável pela interface de login.
+ */
 public class FXML_LoginControle {
 
     private ToggleGroup toggleGroup; //criar um toggleGroup para ajustar o radioButton - selecionar só um por vez.
     AdminNegocio adn = new AdminNegocio();
     AlunaNegocio aln = new AlunaNegocio();
-    
-    String tipoUsuario="";
+
+    String tipoUsuario = "";
 
     @FXML
     private Button btnCadastro;
@@ -83,7 +86,7 @@ public class FXML_LoginControle {
         String senha = txtSenha.getText();
         int cont = 0;
         if (rbtAdmin.isSelected()) {
-            tipoUsuario="admin";
+            tipoUsuario = "admin";
             if (!adn.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
@@ -96,7 +99,7 @@ public class FXML_LoginControle {
                 abreAreaPerfilAdmin(email, senha, tipoUsuario);
             }
         } else if (rbtEstudante.isSelected()) {
-            tipoUsuario="aluna";
+            tipoUsuario = "aluna";
             if (!aln.verificaEmailVazio(email)) {
                 txtEmail.setText("Favor, completar o email!");
                 cont++;
@@ -138,6 +141,11 @@ public class FXML_LoginControle {
 
     }
 
+    /**
+     * Abre a área de cadastro.
+     *
+     * @throws IOException Se ocorrer um erro ao abrir a área de cadastro.
+     */
     public void abreAreaCadastro() throws IOException {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/FXML_CadastroPessoa.fxml"));
@@ -154,6 +162,17 @@ public class FXML_LoginControle {
         }
     }
 
+    /**
+     * Abre a área de perfil do aluno.
+     *
+     * @param email O email do aluno.
+     * @param senha A senha do aluno.
+     * @param tipoUsuario O tipo de usuário (aluno ou administrador).
+     * @throws IOException Se ocorrer um erro ao abrir a área de perfil do
+     * aluno.
+     * @throws Exception Se ocorrer um erro ao validar os dados de login do
+     * aluno.
+     */
     public void abreAreaPerfilAluno(String email, String senha, String tipoUsuario) throws IOException, Exception {
         try {
             Alert alert = new Alert(AlertType.WARNING);
@@ -184,7 +203,18 @@ public class FXML_LoginControle {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Abre a área de perfil do administrador.
+     *
+     * @param email O email do administrador.
+     * @param senha A senha do administrador.
+     * @param tipoUsuario O tipo de usuário (aluno ou administrador).
+     * @throws IOException Se ocorrer um erro ao abrir a área de perfil do
+     * administrador.
+     * @throws Exception Se ocorrer um erro ao validar os dados de login do
+     * administrador.
+     */
     public void abreAreaPerfilAdmin(String email, String senha, String tipoUsuario) throws IOException, Exception {
         try {
             Alert alert = new Alert(AlertType.WARNING);
@@ -216,6 +246,11 @@ public class FXML_LoginControle {
         }
     }
 
+    /**
+     * Obtém o email digitado no campo de texto.
+     *
+     * @return O email digitado.
+     */
     public String getEmail() {
         return txtEmail.getText();
     }

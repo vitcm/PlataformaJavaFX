@@ -1,5 +1,8 @@
 package modelo;
-
+/**
+ * A classe Area representa uma area do sistema. Possui informações
+ * como nome e palavra chave da área.
+ */
 public class Area {
     private String nome, palavra_chave;
 

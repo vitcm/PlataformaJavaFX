@@ -26,6 +26,9 @@ import modelo.Area;
 import modelo.Curso;
 import negocio.CursoNegocio;
 
+/**
+ * Classe de controle para o cadastro de cursos.
+ */
 public class FXML_CadastroCursoControle {
 
     private String emailAdmin = "";
@@ -168,6 +171,12 @@ public class FXML_CadastroCursoControle {
 
     }
 
+    /**
+     * Abre a janela de cadastro de área.
+     *
+     * @throws IOException Exceção lançada caso ocorra algum erro durante a
+     * operação de abrir a janela.
+     */
     public void abreCadastroArea() throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_CadastroArea.fxml"));
@@ -185,6 +194,13 @@ public class FXML_CadastroCursoControle {
         }
     }
 
+    /**
+     * Adiciona um curso no sistema.
+     *
+     * @return true se o curso foi adicionado com sucesso, false caso contrário.
+     * @throws Exception Exceção lançada caso ocorra algum erro durante a
+     * operação.
+     */
     public boolean adicionaCurso() throws Exception {
         boolean retorno = false;
         String nome = txtTituloCurso.getText();
@@ -219,6 +235,13 @@ public class FXML_CadastroCursoControle {
         return retorno;
     }
 
+    /**
+     * Recupera o código da área selecionada no ComboBox.
+     *
+     * @return O código da área selecionada.
+     * @throws Exception Exceção lançada caso ocorra algum erro durante a
+     * operação.
+     */
     public int recuperaCodigoArea() throws Exception {
         String nomeAreaSelecionada = cbxArea.getValue();
         AreaDao areaDao = new AreaDao();
@@ -226,6 +249,12 @@ public class FXML_CadastroCursoControle {
         return codigoArea;
     }
 
+    /**
+     * Verifica se um curso com o mesmo nome já existe no sistema.
+     *
+     * @param nome O nome do curso a ser verificado.
+     * @return true se o curso já existe, false caso contrário.
+     */
     public boolean verificaCursoExistente(String nome) {
         boolean areaExistente = false;
         try {
@@ -238,17 +267,32 @@ public class FXML_CadastroCursoControle {
         return areaExistente;
     }
 
+    /**
+     * Preenche a ComboBox de áreas com os nomes das áreas cadastradas no
+     * sistema.
+     *
+     * @throws Exception Exceção lançada caso ocorra algum erro durante a
+     * operação.
+     */
     public void preencherComboBoxAreas() throws Exception {
         AreaDao areadao = new AreaDao();
         ArrayList<String> nomesAreas = areadao.obterNomesAreas();
         ObservableList<String> listaNomesAreas = FXCollections.observableArrayList(nomesAreas);
         cbxArea.setItems(listaNomesAreas);
     }
-    
+
+    /**
+     * Define o email do administrador.
+     *
+     * @param emailAdm O email do administrador.
+     */
     public void getEmail(String emailAdm) {
         lblEmail.setText(emailAdm);
     }
 
+    /**
+     * Método de inicialização do controlador.
+     */
     public void initialize() {
         try {
             preencherComboBoxAreas();

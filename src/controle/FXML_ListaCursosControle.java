@@ -1,10 +1,13 @@
 package controle;
 
+import conexao.Conexao;
 import dao.AlunaDao;
 import dao.AreaDao;
 import dao.CursoDao;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -26,9 +29,14 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javax.swing.JDialog;
 import modelo.Aluna;
 import modelo.Curso;
 
+
+/**
+ * Classe de controle para a interface de listagem de cursos.
+ */
 public class FXML_ListaCursosControle {
 
     private String emailAl = "";
@@ -43,6 +51,9 @@ public class FXML_ListaCursosControle {
 
     @FXML
     private Button btnLimpa;
+
+    @FXML
+    private Button btnRelatorio;
 
     @FXML
     private ComboBox<String> cbxCursos;
@@ -86,6 +97,11 @@ public class FXML_ListaCursosControle {
     @FXML
     private TextField txtCurso;
 
+//    @FXML
+//    void btnRelatorioOnAction(ActionEvent event) throws Exception {
+//        getPdf();
+//    }
+
     @FXML
     void btnAtualizaOnAction(ActionEvent event) throws Exception {
         txtCursoOnAction(null);
@@ -98,6 +114,11 @@ public class FXML_ListaCursosControle {
         atualizarTabela(cursos); // Restaurar a lista original de cursos
     }
 
+    /**
+     * Inicializa a interface de listagem de cursos com o email da aluna.
+     *
+     * @param email O email da aluna.
+     */
     public void initialize(String email) {
         try {
             emailAl = email;
@@ -160,6 +181,13 @@ public class FXML_ListaCursosControle {
         }
     }
 
+    /**
+     * Abre a janela de inscrição em um curso.
+     *
+     * @param curso O curso selecionado.
+     * @param emailAl O email da aluna.
+     * @throws IOException Se ocorrer um erro ao abrir a janela de inscrição.
+     */
     public void abreJanelaInscricao(Curso curso, String emailAl) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML_InscricaoCurso.fxml"));
         Parent root = loader.load();
@@ -174,6 +202,11 @@ public class FXML_ListaCursosControle {
         stage.show();
     }
 
+    /**
+     * Carrega a tabela de cursos.
+     *
+     * @throws Exception Se ocorrer um erro ao carregar a tabela.
+     */
     public void carregaTabela() throws Exception {
         CursoDao cursoDao = new CursoDao();
         cursos = cursoDao.obterCursos();
@@ -188,6 +221,11 @@ public class FXML_ListaCursosControle {
         tabela.setItems(dadosTabela);
     }
 
+    /**
+     * Atualiza a tabela de cursos com os cursos filtrados.
+     *
+     * @param cursosFiltrados Os cursos filtrados.
+     */
     private void atualizarTabela(ArrayList<Curso> cursosFiltrados) {
         // Limpa a tabela atual
         tabela.getItems().clear();
@@ -196,6 +234,12 @@ public class FXML_ListaCursosControle {
         tabela.getItems().addAll(cursosFiltrados);
     }
 
+    /**
+     * Preenche a ComboBox de critérios de pesquisa de cursos.
+     *
+     * @throws Exception Se ocorrer um erro ao preencher a ComboBox.
+     */
+    // combobox para limitar os tipos de pesquisa 
     public void preencherComboBoxAreas() throws Exception {
         ObservableList<String> criterios = FXCollections.observableArrayList(
                 "Código",
@@ -204,14 +248,27 @@ public class FXML_ListaCursosControle {
         cbxCursos.setItems(criterios);
     }
 
+    /**
+     * Atualiza o estado do botão "Atualizar".
+     */
     private void atualizarBtnAtualiza() {
         String criterioSelecionado = cbxCursos.getValue();
         String pesquisa = txtCurso.getText().trim();
 
-        // Verificar se a ComboBox e o TextField estão preenchidos
+        // Verifica se a ComboBox e o TextField estão preenchidos
         boolean isPreenchido = criterioSelecionado != null && !pesquisa.isEmpty();
 
-        // Habilitar ou desabilitar o botão com base no estado dos componentes
+        // o botão só funciona se estiver a cbx e o campo de texto preenchidos
         btnAtualiza.setDisable(!isPreenchido);
     }
+
+    //RELATÓRIO
+//    private static final String path = "src\\view\\Simples.jasper";
+//
+//    public static void getPdf() throws Exception {
+//
+//        Connection con = Conexao.getConnection();
+//        JasperPrint jp = JasperFillManager.fillReport(path, null, con);
+//        JasperViewer.viewReport(jp, false);
+//    }
 }
